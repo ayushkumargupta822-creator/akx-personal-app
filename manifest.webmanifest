@@ -1,17 +1,1 @@
-{
-  "name": "AKX \u2014 Your Personal Space",
-  "short_name": "AKX",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#f4f5f7",
-  "theme_color": "#f4f5f7",
-  "description": "Your personal life management app",
-  "icons": [
-    {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
-}
+{"name":"AKX Personal OS","short_name":"AKX","start_url":"./","display":"standalone","background_color":"#050607","theme_color":"#050607","description":"Your personal life management dashboard","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}

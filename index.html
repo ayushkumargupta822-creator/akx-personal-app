@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f5f7">
+<meta name="description" content="AKX — your personal life management space">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>AKX — Your Personal Space</title>
+<style>
+:root{--bg:#f4f5f7;--panel:#fff;--ink:#20242b;--muted:#7b818b;--line:#e7e9ed;--soft:#f0f1f4;--accent:#333943;--radius:20px;--shadow:0 8px 28px rgba(20,25,35,.055)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.app{max-width:1120px;margin:auto;min-height:100dvh;padding:22px 22px 96px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.brand{font-size:27px;font-weight:850;letter-spacing:-1.6px}.brand span{color:#9aa0a9}
+.header-right{display:flex;align-items:center;gap:10px}.date-pill,.icon-btn{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:9px 13px;color:var(--muted);font-size:12px}.icon-btn{width:40px;height:40px;padding:0;font-size:16px}
+.hero{background:#fff;border:1px solid var(--line);border-radius:26px;padding:26px;box-shadow:var(--shadow);margin-bottom:20px}
+.eyebrow{font-size:11px;font-weight:750;letter-spacing:1.5px;color:#9298a1;text-transform:uppercase}
+h1{font-size:clamp(27px,5vw,38px);letter-spacing:-1.5px;line-height:1.1;margin:9px 0 8px}
+.sub{color:var(--muted);margin:0}
+.quickstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:23px}
+.stat{background:#f7f8f9;border:1px solid #eef0f2;border-radius:16px;padding:14px}
+.stat b{display:block;font-size:24px;letter-spacing:-.7px}.stat small{color:var(--muted)}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:26px 2px 13px}
+.section-head h2{font-size:17px;margin:0;letter-spacing:-.3px}.section-head small{color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:18px;text-align:left;min-height:132px;box-shadow:0 3px 15px rgba(20,25,35,.025);transition:.15s;color:var(--ink)}
+.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.tile .ico{width:39px;height:39px;border-radius:13px;background:var(--soft);display:grid;place-items:center;font-size:19px;margin-bottom:14px}
+.tile b{display:block;font-size:15px}.tile small{display:block;color:var(--muted);margin-top:3px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:19px;box-shadow:0 3px 15px rgba(20,25,35,.025)}
+.view{display:none}.view.active{display:block}
+.back{border:0;background:transparent;color:var(--muted);padding:0;margin:4px 0 18px}
+.view h1{font-size:29px;margin-bottom:6px}.view .sub{margin-bottom:20px}
+.formrow{display:flex;gap:9px;margin:12px 0}.field{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 13px;outline:none;color:var(--ink)}.field:focus{border-color:#aeb4bd}
+.primary{background:#272d36;color:#fff;border:0;border-radius:12px;padding:12px 16px;font-weight:650;white-space:nowrap}.secondary{background:#f0f1f3;color:#343a43;border:1px solid var(--line);border-radius:12px;padding:10px 13px}
+.list{display:grid;gap:9px;margin-top:14px}.item{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:13px;padding:12px;background:#fff}.item .grow{flex:1;min-width:0}.item small{display:block;color:var(--muted);margin-top:2px}.item.done .grow b{text-decoration:line-through;color:#a0a5ad}.item input[type=checkbox]{width:18px;height:18px;accent-color:#343a43}.delete{border:0;background:transparent;color:#a1a6ae;font-size:18px;padding:4px 7px}
+.progress{height:8px;background:#eceef1;border-radius:99px;overflow:hidden;margin:12px 0}.progress span{display:block;height:100%;background:#434a55;width:0;transition:width .2s}
+textarea.field{min-height:140px;resize:vertical}.empty{color:#9aa0a9;text-align:center;padding:25px 10px}
+.bottomnav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;justify-content:center;gap:5px;padding:9px 10px calc(9px + env(safe-area-inset-bottom));z-index:5}
+.bottomnav button{border:0;background:transparent;color:#858b95;padding:7px 13px;border-radius:12px;font-size:11px;min-width:64px}.bottomnav button span{display:block;font-size:18px;margin-bottom:2px}.bottomnav button.active{background:#f0f1f3;color:#242a33;font-weight:700}
+.notice{font-size:12px;color:var(--muted);line-height:1.5;margin-top:16px}
+.lock{position:fixed;inset:0;background:#f4f5f7;z-index:20;display:grid;place-items:center;padding:22px}.lock-card{width:min(390px,100%);background:#fff;border:1px solid var(--line);border-radius:25px;padding:28px;box-shadow:var(--shadow);text-align:center}.lock-card .brand{font-size:36px;margin-bottom:20px}.lock-card p{color:var(--muted)}.pin{font-size:24px;text-align:center;letter-spacing:10px}
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:#252b34;color:#fff;padding:10px 15px;border-radius:12px;font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:30}.toast.show{opacity:1}
+@media(max-width:680px){.app{padding:17px 15px 100px}.tiles{grid-template-columns:repeat(2,1fr);gap:10px}.tile{min-height:122px;padding:15px}.hero{padding:21px}.quickstats{gap:8px}.stat{padding:11px}.stat b{font-size:21px}.date-pill{display:none}.bottomnav{justify-content:space-around}.bottomnav button{padding:7px 8px;min-width:52px}}
+@media(min-width:900px){.tiles{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div id="lock" class="lock">
+  <div class="lock-card">
+    <div class="brand">AKX<span>.</span></div>
+    <div class="eyebrow">YOUR PERSONAL SPACE</div>
+    <h2 id="lockTitle">Create your PIN</h2>
+    <p id="lockText">Set a 4–8 digit PIN to keep this space private on this device.</p>
+    <input id="pinInput" class="field pin" type="password" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="off">
+    <button id="pinButton" class="primary" style="width:100%;margin-top:12px">Continue</button>
+    <div class="notice">Your information is stored in this browser on this device. This PIN is a basic privacy lock, not encrypted cloud security.</div>
+  </div>
+</div>
+<div class="app" id="app" hidden>
+<header><div class="brand">AKX<span>.</span></div><div class="header-right"><div class="date-pill" id="today"></div><button class="icon-btn" id="lockNow" title="Lock app">⌑</button></div></header>
+<main>
+<section id="home" class="view active">
+  <div class="hero">
+    <div class="eyebrow">YOUR PERSONAL DASHBOARD</div>
+    <h1 id="greeting">Good day.</h1>
+    <p class="sub">A little progress, every day.</p>
+    <div class="quickstats">
+      <div class="stat"><b id="taskCount">0/0</b><small>Tasks done</small></div>
+      <div class="stat"><b id="studyCount">0h</b><small>Study logged today</small></div>
+      <div class="stat"><b id="goalCount">0</b><small>Active goals</small></div>
+    </div>
+  </div>
+  <div class="section-head"><h2>Your space</h2><small>Everything in one place</small></div>
+  <div class="tiles">
+    <button class="tile" data-open="study"><div class="ico">🎓</div><b>Study Hub</b><small>CBSE 12 · JEE</small></button>
+    <button class="tile" data-open="routine"><div class="ico">☀️</div><b>Daily Routine</b><small>Plan your day</small></button>
+    <button class="tile" data-open="tasks"><div class="ico">✓</div><b>My Tasks</b><small>To-do list</small></button>
+    <button class="tile" data-open="notes"><div class="ico">✎</div><b>Personal Notes</b><small>Thoughts & ideas</small></button>
+    <button class="tile" data-open="finance"><div class="ico">₹</div><b>My Finance</b><small>Track expenses</small></button>
+    <button class="tile" data-open="goals"><div class="ico">◎</div><b>My Goals</b><small>Keep moving forward</small></button>
+  </div>
+  <div class="section-head"><h2>Today at a glance</h2></div><div class="panel" id="todaySummary">No tasks added yet. Start by adding one small task.</div>
+</section>
+
+<section id="study" class="view">
+<button class="back" data-open="home">← Dashboard</button><h1>Study Hub</h1><p class="sub">CBSE Class 12 + JEE preparation</p>
+<div class="panel">
+ <div class="eyebrow">STUDY SESSION</div>
+ <div class="formrow"><select id="studySubject" class="field"><option>Physics</option><option>Chemistry</option><option>Mathematics</option><option>English</option><option>Physical Education</option><option>Other</option></select><input id="studyHours" class="field" type="number" min=".1" max="24" step=".1" placeholder="Hours"></div>
+ <input id="studyTopic" class="field" placeholder="Topic / chapter (optional)">
+ <button class="primary" id="addStudy" style="margin-top:10px">Log study session</button>
+ <div class="progress"><span id="studyProgress"></span></div><small id="studyProgressText" style="color:var(--muted)">0 hours logged today</small>
+</div>
+<div class="section-head"><h2>Recent study sessions</h2></div><div id="studyList" class="list"></div>
+</section>
+
+<section id="routine" class="view">
+<button class="back" data-open="home">← Dashboard</button><h1>Daily Routine</h1><p class="sub">Build a routine that works for you.</p>
+<div class="panel"><div class="formrow"><input id="routineTime" class="field" type="time"><input id="routineName" class="field" placeholder="Activity"></div><button class="primary" id="addRoutine">Add routine item</button></div>
+<div id="routineList" class="list"></div>
+</section>
+
+<section id="tasks" class="view">
+<button class="back" data-open="home">← Dashboard</button><h1>My Tasks</h1><p class="sub">Keep today's priorities clear.</p>
+<div class="panel"><div class="formrow"><input id="taskInput" class="field" placeholder="What needs to get done?"><button class="primary" id="addTask">Add</button></div><div class="formrow"><select id="taskCategory" class="field"><option>Study</option><option>Personal</option><option>School</option><option>Other</option></select><input id="taskDate" class="field" type="date"></div></div>
+<div id="taskList" class="list"></div>
+</section>
+
+<section id="notes" class="view">
+<button class="back" data-open="home">← Dashboard</button><h1>Personal Notes</h1><p class="sub">A private place for thoughts, plans and ideas.</p>
+<div class="panel"><input id="noteTitle" class="field" placeholder="Note title"><textarea id="noteBody" class="field" placeholder="Write something..."></textarea><button class="primary" id="saveNote" style="margin-top:10px">Save note</button></div>
+<div id="noteList" class="list"></div>
+</section>
+
+<section id="finance" class="view">
+<button class="back" data-open="home">← Dashboard</button><h1>My Finance</h1><p class="sub">Simple personal expense tracking.</p>
+<div class="panel"><div class="eyebrow">TOTAL RECORDED EXPENSES</div><h1 id="expenseTotal">₹0</h1><div class="formrow"><input id="expenseName" class="field" placeholder="Expense name"><input id="expenseAmount" class="field" type="number" min="1" placeholder="₹ Amount"></div><button class="primary" id="addExpense">Add expense</button></div>
+<div id="expenseList" class="list"></div>
+</section>
+
+<section id="goals" class="view">
+<button class="back" data-open="home">← Dashboard</button><h1>My Goals</h1><p class="sub">Define what matters and track your progress.</p>
+<div class="panel"><div class="formrow"><input id="goalInput" class="field" placeholder="Your goal"><button class="primary" id="addGoal">Add</button></div></div>
+<div id="goalList" class="list"></div>
+</section>
+</main>
+</div>
+<nav class="bottomnav" id="nav" hidden>
+<button class="active" data-open="home"><span>⌂</span>Home</button><button data-open="study"><span>▤</span>Study</button><button data-open="tasks"><span>✓</span>Tasks</button><button data-open="routine"><span>◷</span>Routine</button><button data-open="notes"><span>✎</span>Notes</button>
+</nav>
+<div class="toast" id="toast"></div>
+<script>
+const $=id=>document.getElementById(id), key='akx_v1';
+const todayKey=()=>new Date().toISOString().slice(0,10);
+let data=JSON.parse(localStorage.getItem(key)||'{"tasks":[],"study":[],"routine":[],"notes":[],"expenses":[],"goals":[]}');
+function save(){localStorage.setItem(key,JSON.stringify(data));renderAll()}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1900)}
+function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.bottomnav button').forEach(b=>b.classList.toggle('active',b.dataset.open===id));window.scrollTo(0,0)}
+document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.open)));
+$('today').textContent=new Intl.DateTimeFormat('en-IN',{weekday:'short',day:'numeric',month:'short'}).format(new Date());
+let hr=new Date().getHours();$('greeting').textContent=hr<12?'Good morning.':hr<17?'Good afternoon.':'Good evening.';
+function addItem(id,html){$(id).insertAdjacentHTML('beforeend',html)}
+function renderAll(){
+ const done=data.tasks.filter(t=>t.done).length;$('taskCount').textContent=done+'/'+data.tasks.length;
+ const hrs=data.study.filter(s=>s.date===todayKey()).reduce((a,s)=>a+s.hours,0);$('studyCount').textContent=hrs+'h';$('studyProgressText').textContent=hrs+' hours logged today';$('studyProgress').style.width=Math.min(100,hrs/8*100)+'%';
+ $('goalCount').textContent=data.goals.length;
+ $('taskList').innerHTML=data.tasks.length?data.tasks.map((t,i)=>`<div class="item ${t.done?'done':''}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${i})"><div class="grow"><b>${esc(t.name)}</b><small>${esc(t.category)}${t.date?' · '+esc(t.date):''}</small></div><button class="delete" onclick="del('tasks',${i})">×</button></div>`).join(''):'<div class="empty">No tasks yet. Add your first task above.</div>';
+ $('studyList').innerHTML=data.study.length?data.study.slice().reverse().map((s,i)=>`<div class="item"><div class="grow"><b>${esc(s.subject)} · ${s.hours}h</b><small>${esc(s.topic||'Study session')} · ${esc(s.date)}</small></div><button class="delete" onclick="del('study',${data.study.length-1-i})">×</button></div>`).join(''):'<div class="empty">Your logged sessions will appear here.</div>';
+ $('routineList').innerHTML=data.routine.length?data.routine.slice().sort((a,b)=>a.time.localeCompare(b.time)).map((r)=>`<div class="item"><div class="grow"><b>${esc(r.time)} · ${esc(r.name)}</b></div><button class="delete" onclick="delById('routine','${r.id}')">×</button></div>`).join(''):'<div class="empty">Add the activities that shape your day.</div>';
+ $('noteList').innerHTML=data.notes.length?data.notes.slice().reverse().map((n,i)=>`<div class="item"><div class="grow"><b>${esc(n.title)}</b><small>${esc(n.body).slice(0,100)}</small></div><button class="delete" onclick="del('notes',${data.notes.length-1-i})">×</button></div>`).join(''):'<div class="empty">No notes saved yet.</div>';
+ let total=data.expenses.reduce((a,e)=>a+e.amount,0);$('expenseTotal').textContent='₹'+total.toLocaleString('en-IN');
+ $('expenseList').innerHTML=data.expenses.length?data.expenses.slice().reverse().map((e,i)=>`<div class="item"><div class="grow"><b>${esc(e.name)}</b><small>${esc(e.date)}</small></div><b>₹${e.amount.toLocaleString('en-IN')}</b><button class="delete" onclick="del('expenses',${data.expenses.length-1-i})">×</button></div>`).join(''):'<div class="empty">No expenses recorded.</div>';
+ $('goalList').innerHTML=data.goals.length?data.goals.map((g,i)=>`<div class="item"><div class="grow"><b>${esc(g.name)}</b><small>Personal goal</small></div><button class="delete" onclick="del('goals',${i})">×</button></div>`).join(''):'<div class="empty">Add a goal you want to work towards.</div>';
+ $('todaySummary').innerHTML=data.tasks.length?`<b>${done} of ${data.tasks.length} tasks completed</b><div class="progress"><span style="width:${data.tasks.length?done/data.tasks.length*100:0}%"></span></div><small style="color:var(--muted)">${data.tasks.filter(t=>!t.done).length} tasks remaining</small>`:'No tasks added yet. Start by adding one small task.';
+}
+window.toggleTask=i=>{data.tasks[i].done=!data.tasks[i].done;save()};
+window.del=(k,i)=>{data[k].splice(i,1);save()};
+window.delById=(k,id)=>{data[k]=data[k].filter(x=>x.id!==id);save()};
+$('addTask').onclick=()=>{let v=$('taskInput').value.trim();if(!v)return toast('Enter a task first');data.tasks.push({name:v,category:$('taskCategory').value,date:$('taskDate').value,done:false});$('taskInput').value='';save()};
+$('addStudy').onclick=()=>{let h=Number($('studyHours').value);if(!h||h<=0||h>24)return toast('Enter valid study hours');data.study.push({subject:$('studySubject').value,hours:h,topic:$('studyTopic').value.trim(),date:todayKey()});$('studyHours').value='';$('studyTopic').value='';save();toast('Study session saved')};
+$('addRoutine').onclick=()=>{let n=$('routineName').value.trim(),t=$('routineTime').value;if(!n||!t)return toast('Add a time and activity');data.routine.push({id:crypto.randomUUID(),name:n,time:t});$('routineName').value='';save()};
+$('saveNote').onclick=()=>{let t=$('noteTitle').value.trim(),b=$('noteBody').value.trim();if(!t||!b)return toast('Add a title and note');data.notes.push({title:t,body:b});$('noteTitle').value='';$('noteBody').value='';save();toast('Note saved')};
+$('addExpense').onclick=()=>{let n=$('expenseName').value.trim(),a=Number($('expenseAmount').value);if(!n||!a||a<=0)return toast('Enter a name and valid amount');data.expenses.push({name:n,amount:a,date:todayKey()});$('expenseName').value='';$('expenseAmount').value='';save()};
+$('addGoal').onclick=()=>{let n=$('goalInput').value.trim();if(!n)return toast('Enter a goal');data.goals.push({name:n});$('goalInput').value='';save()};
+renderAll();
+
+// Basic PIN privacy gate. PIN hash is stored locally; this is not encryption.
+const pinKey='akx_pin_hash';
+async function hashPin(pin){const bytes=new TextEncoder().encode(pin);const digest=await crypto.subtle.digest('SHA-256',bytes);return [...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function unlock(){const pin=$('pinInput').value;if(!/^\d{4,8}$/.test(pin)){toast('Use a 4–8 digit PIN');return}
+ const existing=localStorage.getItem(pinKey),hashed=await hashPin(pin);
+ if(!existing){localStorage.setItem(pinKey,hashed);enterApp()}
+ else if(existing===hashed){enterApp()}else{toast('Incorrect PIN');$('pinInput').value=''}
+}
+function enterApp(){$('lock').style.display='none';$('app').hidden=false;$('nav').hidden=false;$('pinInput').value=''}
+function lockApp(){$('app').hidden=true;$('nav').hidden=true;$('lock').style.display='grid';$('lockTitle').textContent='Welcome back';$('lockText').textContent='Enter your PIN to open AKX.'}
+if(localStorage.getItem(pinKey)){$('lockTitle').textContent='Welcome back';$('lockText').textContent='Enter your PIN to open AKX.'}
+$('pinButton').onclick=unlock;$('pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')unlock()});$('lockNow').onclick=lockApp;
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body></html>

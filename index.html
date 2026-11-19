@@ -53,7 +53,46 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(139,92,246,.12),transpare
 .mobile button.active{color:#c9aaff}
 .mobile button.active b{filter:none}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
-</style></head><body><div class="app"><aside class="side"><div class="brand"><span class="logo">A</span>AKX <small style="color:#778">OS</small></div><div class="eyebrow" style="padding:10px">WORKSPACE</div><nav class="nav" id="sideNav"></nav></aside><main class="main"><header class="top"><div><div class="eyebrow">PERSONAL OPERATING SYSTEM</div><div class="hello" id="greeting">Good day.</div><div class="muted" id="today"></div></div><div class="avatar">AKX</div></header>
+</style>
+<style id="akx-gold-black-theme">
+:root{
+ --bg:#f5edda !important;--card:#fffaf0 !important;--card2:#f1e5c9 !important;
+ --line:#e3d2aa !important;--t:#211d16 !important;--muted:#766b57 !important;
+ --a:#b58a32 !important;--accent:#b58a32 !important;--radius:16px !important;
+ color-scheme:light !important;
+}
+html,body{background:#f5edda!important;color:#211d16!important}
+body{background:linear-gradient(135deg,#f8f1e2 0%,#efe2c3 100%) fixed!important}
+header,.topbar,.sidebar,.bottomnav,.nav,.modal,.modalbox{background:#fffaf0!important;color:#211d16!important;border-color:#e3d2aa!important}
+.card,.panel,.statcard,.entry,.rowitem,.book-card,.bookcard,.tile,.modal-content{
+ background:#fffaf0!important;color:#211d16!important;border:1px solid #e3d2aa!important;
+ box-shadow:0 5px 18px rgba(92,67,22,.055)!important
+}
+h1,h2,h3,h4,strong,b,.cardtitle,.stathead{color:#211d16!important}
+p,.muted,small,label{color:#766b57!important}
+button,.btn,.primary,.action-btn,.add-btn,.submit-btn{
+ background:#171512!important;color:#f8efd9!important;border:1px solid #171512!important;
+ box-shadow:none!important;border-radius:12px!important
+}
+button:hover,.btn:hover,.primary:hover{background:#332b1c!important;color:#fff8e8!important}
+.iconbtn{background:#211d16!important;color:#f8efd9!important}
+input:not([type=checkbox]):not([type=range]),select,textarea,.field{
+ background:#fffdf7!important;color:#211d16!important;border:1px solid #ddc99c!important
+}
+input::placeholder,textarea::placeholder{color:#9b8c70!important}
+input[type=checkbox]{accent-color:#b58a32!important}
+input[type=range]{accent-color:#b58a32!important}
+.progress,.bar{background:#e8dcc2!important}
+.progress i,.bar i{background:#b58a32!important}
+.pill,.tag,.badge{background:#efe2c3!important;color:#72551c!important;border:1px solid #dfc68d!important}
+nav button,.nav button,.bottomnav button,.tab{background:transparent!important;color:#766b57!important;border-color:transparent!important}
+nav button.active,.nav button.active,.bottomnav button.active,.tab.active,[aria-current=page]{
+ background:#eee1c2!important;color:#3b2c0d!important;border-color:#dfc68d!important
+}
+a{color:#8a641e!important}
+hr{border-color:#e3d2aa!important}
+</style>
+</head><body><div class="app"><aside class="side"><div class="brand"><span class="logo">A</span>AKX <small style="color:#778">OS</small></div><div class="eyebrow" style="padding:10px">WORKSPACE</div><nav class="nav" id="sideNav"></nav></aside><main class="main"><header class="top"><div><div class="eyebrow">PERSONAL OPERATING SYSTEM</div><div class="hello" id="greeting">Good day.</div><div class="muted" id="today"></div></div><div class="avatar">AKX</div></header>
 <section class="page active" id="dashboard"><div class="grid">
 <div class="card s12"><div class="cardtitle">My Routine <button class="ghost" onclick="go('routine')">Manage →</button></div><div id="dashRoutine"></div></div>
 <div class="card s12"><div class="cardtitle">My Tasks <button class="ghost" onclick="go('tasks')">View all →</button></div><div id="dashTasks"></div></div>

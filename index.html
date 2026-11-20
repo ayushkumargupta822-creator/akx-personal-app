@@ -443,19 +443,73 @@ const skin=mat('#e9b995'),hair=mat('#201a22'),black=mat('#24232a'),gold=mat('#c4
 function mesh(g,m,x,y,z,parent){let o=new THREE.Mesh(g,m);o.position.set(x,y,z);parent.add(o);return o}
 function makeAvatar(parent,type='boy',scale=1){
  const root=new THREE.Group();parent.add(root);
- const torso=mesh(new THREE.BoxGeometry(.72,.9,.42),black,0,1.45,0,root);torso.material=black;
- mesh(new THREE.BoxGeometry(.75,.12,.44),gold,0,1.82,.015,root);
- mesh(new THREE.BoxGeometry(.12,.55,.46),gold,-.24,1.47,.01,root);
- mesh(new THREE.SphereGeometry(.28,24,18),skin,0,2.12,0,root);
- mesh(new THREE.SphereGeometry(.29,24,16,0,Math.PI*2,0,Math.PI*.56),hair,0,2.22,-.015,root);
- if(type==='girl'){let pony=mesh(new THREE.SphereGeometry(.19,16,12),hair,.25,2.02,-.04,root);pony.scale.set(.65,1.6,.7);mesh(new THREE.SphereGeometry(.12,14,10),hair,-.25,2.12,.04,root)}
- else {for(let i=-1;i<=1;i++)mesh(new THREE.ConeGeometry(.09,.2,7),hair,i*.14,2.37,.06,root)}
- for(let x of [-.105,.105]){mesh(new THREE.SphereGeometry(.035,10,8),white,x,2.14,.245,root);mesh(new THREE.SphereGeometry(.018,8,8),black,x,2.14,.276,root)}
- mesh(new THREE.BoxGeometry(.3,.07,.035),gold,0,1.98,.245,root);
- mesh(new THREE.BoxGeometry(.25,.12,.08),gold,0,1.63,.235,root);
- for(let x of [-.46,.46]){let arm=mesh(new THREE.CapsuleGeometry(.105,.48,4,8),black,x,1.43,0,root);arm.rotation.z=x<0?-.18:.18;mesh(new THREE.SphereGeometry(.11,12,10),skin,x*1.05,1.12,.01,root)}
- for(let x of [-.2,.2]){mesh(new THREE.CapsuleGeometry(.13,.48,4,8),black,x,.65,0,root);mesh(new THREE.BoxGeometry(.27,.13,.42),gold,x,.13,.07,root)}
- mesh(new THREE.TorusGeometry(.29,.035,8,24),gold,0,2.13,-.04,root).rotation.x=Math.PI/2;
+ const skinMat=mat('#f0c5a5'),hairMat=mat(type==='girl'?'#21182b':'#171923'),jacket=mat('#24242b'),pants=mat('#17191f'),shoe=mat('#eee8dc'),eye=mat('#282039'),iris=mat(type==='girl'?'#b77b35':'#4e91b8'),goldMat=mat('#d7ad55'),sole=mat('#c49b4d'),hood=mat('#303039');
+ const sph=(x,y,z,sx,sy,sz,m)=>{let o=mesh(new THREE.SphereGeometry(1,24,18),m,x,y,z,root);o.scale.set(sx,sy,sz);return o};
+ const cap=(x,y,z,r,len,m,rz=0)=>{let o=mesh(new THREE.CapsuleGeometry(r,len,6,12),m,x,y,z,root);o.rotation.z=rz;return o};
+ // Sneakers and legs
+ for(const x of [-.19,.19]){
+  cap(x,.55,0,.105,.48,pants);
+  mesh(new THREE.BoxGeometry(.25,.12,.42),sole,x,.16,.08,root);
+  let sneaker=mesh(new THREE.BoxGeometry(.27,.17,.43),shoe,x,.25,.07,root);sneaker.rotation.x=-.04;
+  mesh(new THREE.BoxGeometry(.23,.035,.025),goldMat,x,.29,.29,root);
+  mesh(new THREE.BoxGeometry(.11,.035,.02),goldMat,x,.34,.18,root);
+ }
+ // Streetwear jacket silhouette
+ let body=mesh(new THREE.CapsuleGeometry(.32,.55,8,16),jacket,0,1.48,0,root);body.scale.set(1.12,1.08,.78);
+ sph(0,1.78,0,.39,.19,.25,hood);
+ mesh(new THREE.BoxGeometry(.055,.72,.035),goldMat,-.035,1.48,.255,root);
+ mesh(new THREE.BoxGeometry(.38,.055,.045),goldMat,0,1.15,.245,root);
+ // Hood and backpack details
+ sph(0,1.68,-.24,.34,.38,.16,hood);
+ mesh(new THREE.BoxGeometry(.48,.55,.22),pants,0,1.42,-.34,root);
+ mesh(new THREE.BoxGeometry(.5,.07,.24),goldMat,0,1.65,-.34,root);
+ // Arms, cuffs and hands
+ for(const side of [-1,1]){
+  let arm=cap(side*.43,1.43,0,.105,.43,jacket,side*.12);
+  sph(side*.48,1.14,.015,.105,.105,.105,skinMat);
+  mesh(new THREE.TorusGeometry(.105,.025,8,18),goldMat,side*.45,1.22,0,root).rotation.z=side*.12;
+  sph(side*.31,1.84,.01,.13,.13,.13,jacket);
+ }
+ // Neck and oversized anime head
+ cap(0,1.99,0,.105,.12,skinMat);
+ sph(0,2.28,.015,.31,.36,.28,skinMat);
+ // Ears
+ for(const x of [-.305,.305])sph(x,2.28,0,.065,.09,.055,skinMat);
+ // Hair cap, side locks and fringe
+ sph(0,2.49,-.025,.325,.24,.30,hairMat);
+ sph(-.23,2.34,.13,.12,.22,.14,hairMat);sph(.23,2.34,.13,.12,.22,.14,hairMat);
+ for(let i=0;i<5;i++){
+  let x=(i-2)*.105;
+  let spike=mesh(new THREE.ConeGeometry(.105,.27,8),hairMat,x,2.52,.19,root);
+  spike.rotation.z=(2-i)*.19;spike.rotation.x=-.22;
+ }
+ if(type==='girl'){
+  // Long twin side locks and tied-back hair
+  for(const x of [-.25,.25]){
+   let lock=cap(x,2.02,-.015,.095,.62,hairMat,x*.35);lock.scale.set(.9,1.15,.9);
+   sph(x*1.05,2.42,-.12,.16,.19,.16,hairMat);
+  }
+  sph(0,2.55,-.22,.22,.25,.2,hairMat);
+ }else{
+  for(let i=0;i<3;i++){let spike=mesh(new THREE.ConeGeometry(.11,.24,7),hairMat,(i-1)*.15,2.65,-.02,root);spike.rotation.z=(i-1)*.35}
+ }
+ // Large expressive anime eyes, brows and mouth on front (+Z)
+ for(const x of [-.125,.125]){
+  sph(x,2.29,.274,.078,.105,.035,white);
+  sph(x,2.285,.307,.043,.075,.025,iris);
+  sph(x,2.28,.329,.021,.052,.014,eye);
+  sph(x-.015,2.32,.342,.012,.018,.009,white);
+  let brow=mesh(new THREE.BoxGeometry(.105,.022,.025),hairMat,x,2.405,.275,root);brow.rotation.z=x<0?-.12:.12;
+ }
+ sph(0,2.12,.286,.055,.018,.018,mat('#a85e61'));
+ // Headphones with metallic ear cups
+ let band=mesh(new THREE.TorusGeometry(.335,.035,10,32,Math.PI),goldMat,0,2.39,-.015,root);band.rotation.z=Math.PI;
+ for(const x of [-.32,.32]){sph(x,2.28,.005,.09,.13,.07,jacket);sph(x,2.28,.065,.055,.085,.025,goldMat)}
+ // Collar, chest emblem and waist accents
+ mesh(new THREE.ConeGeometry(.13,.18,4),white,-.12,1.82,.22,root).rotation.z=Math.PI;
+ mesh(new THREE.ConeGeometry(.13,.18,4),white,.12,1.82,.22,root).rotation.z=Math.PI;
+ sph(.13,1.48,.275,.075,.075,.025,goldMat);
+ let emblem=mesh(new THREE.BoxGeometry(.1,.035,.02),goldMat,.13,1.48,.3,root);emblem.rotation.z=-.3;
  root.scale.setScalar(scale);return root;
 }
 function initAvatar(){const canvas=$('akxAvatarCanvas');if(!canvas||!window.WebGLRenderingContext)return;try{avatarScene=new THREE.Scene();avatarScene.background=new THREE.Color('#ead9b8');avatarCamera=new THREE.PerspectiveCamera(35,1,.1,50);avatarCamera.position.set(0,1.6,6.4);avatarRenderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});avatarRenderer.setPixelRatio(Math.min(devicePixelRatio,1.6));avatarRenderer.outputColorSpace=THREE.SRGBColorSpace;avatarScene.add(new THREE.HemisphereLight('#fff4dd','#78613b',2));let l=new THREE.DirectionalLight('#fff4df',2.5);l.position.set(3,5,4);avatarScene.add(l);avatarRoot=new THREE.Group();avatarScene.add(avatarRoot);rebuildAvatar();let dragging=false,last=0;canvas.addEventListener('pointerdown',e=>{dragging=true;last=e.clientX;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(dragging){avatarRoot.rotation.y+=(e.clientX-last)*.012;last=e.clientX}});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);$('akxAvatarLoading').style.display='none';resizeAvatar();window.addEventListener('resize',resizeAvatar);animateAvatar()}catch(e){$('akxAvatarLoading').textContent='3D preview unavailable on this device'}}

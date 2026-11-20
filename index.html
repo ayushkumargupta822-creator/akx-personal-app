@@ -465,7 +465,8 @@ function makeAvatar(parent,type='boy',scale=1){
  const cap=(x,y,z,r,len,m,rz=0)=>{let o=mesh(new THREE.CapsuleGeometry(r,len,7,14),m,x,y,z,root);o.rotation.z=rz;return o};
  // Yellow shorts, visible legs and premium trainers
  for(const x of [-.19,.19]){
-  cap(x,.68,0,.115,.22,pants);\n  cap(x,.37,0,.075,.28,skinMat);
+  cap(x,.68,0,.115,.22,pants);
+  cap(x,.37,0,.075,.28,skinMat);
   mesh(new THREE.BoxGeometry(.24,.075,.035),goldMat,x,.34,.13,root);
   mesh(new THREE.BoxGeometry(.29,.13,.43),sole,x,.15,.08,root);
   mesh(new THREE.BoxGeometry(.28,.17,.42),shoe,x,.245,.075,root);

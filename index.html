@@ -53,6 +53,7 @@ body{background:radial-gradient(ellipse at 12% 0%,rgba(139,92,246,.12),transpare
 .mobile button.active{color:#c9aaff}
 .mobile button.active b{filter:none}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+.arcade-classics{margin-bottom:18px}.arcade-classics .arcade-card{min-height:190px}.arc-chess{background:linear-gradient(140deg,#e8d9ff,#a98ae8)!important;color:#25183c!important}.arc-ludo{background:linear-gradient(140deg,#ffe1a8,#f3a85f)!important;color:#3a2410!important}.arcade-classics .arcade-card strong,.arcade-classics .arcade-card small{color:inherit!important}.arcade-classics .arcade-card .arcade-tag{background:#ffffff70;color:inherit!important}
 </style>
 <style id="akx-gold-black-theme">
 /* AKX GOLD / WARM CREAM — unified theme */
@@ -313,7 +314,12 @@ nav button.active,.nav button.active,.bottomnav button.active,.tab.active,[aria-
 <section class="page" id="arcade">
 <div class="arcade-hero"><div class="arcade-kicker">✦ THE PLAYGROUND ✦</div><div class="arcade-title">AKX <span>ARCADE</span></div><p>Quick games. Bright vibes. Beat your best score.</p><div class="arcade-orbs"><i>🎮</i><i>⚡</i><i>🕹️</i><i>🌈</i></div></div>
 <div class="arcade-stats"><div><b id="arcadePlayed">0</b><small>GAMES PLAYED</small></div><div><b id="arcadeBest">—</b><small>BEST REACTION</small></div><div><b>4</b><small>MINI GAMES</small></div></div>
-<div class="arcade-section-title"><div><span>CHOOSE YOUR GAME</span><h3>Pick a challenge</h3></div><span class="arcade-live">● READY TO PLAY</span></div>
+<div class="arcade-section-title"><div><span>FEATURED GAMES</span><h3>Classic Arena</h3></div><span class="arcade-live">● PLAY NOW</span></div>
+<div class="arcade-catalog arcade-classics">
+<button class="arcade-card arc-chess" onclick="go('chess')"><span class="arcade-icon">♟️</span><span class="arcade-tag">STRATEGY</span><strong>Chess Arena</strong><small>Play against the computer or locally with a friend.</small><b class="arcade-play">OPEN CHESS ↗</b></button>
+<button class="arcade-card arc-ludo" onclick="go('ludo')"><span class="arcade-icon">🎲</span><span class="arcade-tag">CLASSIC BOARD</span><strong>Ludo</strong><small>Play with friends or challenge the computer.</small><b class="arcade-play">OPEN LUDO ↗</b></button>
+</div>
+<div class="arcade-section-title"><div><span>QUICK MINI GAMES</span><h3>Pick a challenge</h3></div><span class="arcade-live">● READY TO PLAY</span></div>
 <div class="arcade-catalog">
 <button class="arcade-card arc-reaction" onclick="arcadeOpen('reaction')"><span class="arcade-icon">⚡</span><span class="arcade-tag">SPEED</span><strong>Reaction Rush</strong><small>Test how fast you react.</small><b class="arcade-play">PLAY NOW ↗</b></button>
 <button class="arcade-card arc-tap" onclick="arcadeOpen('tap')"><span class="arcade-icon">👆</span><span class="arcade-tag">ENDURANCE</span><strong>Tap Sprint</strong><small>How many taps in 10 seconds?</small><b class="arcade-play">PLAY NOW ↗</b></button>

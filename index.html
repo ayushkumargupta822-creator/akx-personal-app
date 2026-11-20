@@ -130,6 +130,63 @@ nav button.active,.nav button.active,.bottomnav button.active,.tab.active,[aria-
 .mobile-drawer-head button{background:#39352e!important;color:#fff8e8!important;border:0;border-radius:9px;padding:7px 11px}
 #mobileMenuNav{display:grid;gap:7px}#mobileMenuNav button{display:flex;align-items:center;gap:12px;text-align:left;background:#f5ecd9!important;color:#342d20!important;border:1px solid #e5d5b3!important;border-radius:12px;padding:12px;font-weight:650}#mobileMenuNav button b{width:25px;color:#a47a28;font-size:18px}
 @media(max-width:820px){.mobile-menu-btn{display:inline-flex}.top{align-items:flex-start;gap:10px}.top>div:first-of-type{flex:1}.mobile-menu-btn{flex-shrink:0}}
+
+/* AKX LUDO — CLASSIC PREMIUM BOARD */
+#ludo .head{align-items:center;margin-bottom:18px}
+#ludo .head h2{font-size:clamp(24px,4vw,30px);letter-spacing:-.7px}
+#ludo .ludo-shell{max-width:980px;padding:clamp(12px,2.4vw,24px)!important;background:linear-gradient(145deg,#fffdf7,#f8f0df)!important;border:1px solid #dfcda7!important;box-shadow:0 12px 34px rgba(82,61,25,.10)!important}
+#ludo .ludo-setup{grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:12px;padding:14px;background:#f5ecd9;border:1px solid #e7d8b8;border-radius:15px}
+#ludo .ludo-setup label{font-size:11px;letter-spacing:.35px;text-transform:uppercase;color:#776344!important}
+#ludo .ludo-setup .field{height:43px;background:#fffdf8!important;border-color:#ddcba4!important;color:#30291e!important;font-weight:650}
+#ludo .ludo-setup .btn{height:43px;padding:0 17px!important;white-space:nowrap;background:linear-gradient(135deg,#4a4336,#29261f)!important;border:1px solid #a98745!important;box-shadow:0 4px 10px #604b261c!important}
+#ludo .ludo-gamebar{padding:12px 14px;margin:14px 0;background:#fffaf0;border:1px solid #e7d8b8;border-radius:14px}
+#ludo .ludo-turn{font-size:14px;color:#332a1c!important}
+#ludo .ludo-dice{width:54px;height:54px;border:1px solid #d5bd88;border-radius:14px;background:linear-gradient(145deg,#fff,#f5ecd9);color:#342b1d;font-size:37px;box-shadow:0 5px 12px #59451c20,inset 0 1px #fff}
+#ludo .ludo-roll{min-height:44px;padding:11px 18px!important;background:linear-gradient(135deg,#4a4336,#29261f)!important;border:1px solid #b58a32!important;box-shadow:0 4px 12px #59451c20!important}
+#ludo .ludo-board{width:min(100%,680px);border:7px solid #4a4030;border-radius:12px;background:#fffdf8;box-shadow:0 9px 24px rgba(62,45,19,.18),inset 0 0 0 2px #d9c69c;gap:0}
+#ludo .ludo-cell{border:1px solid #d9d1c1;background:#fffdf8;overflow:hidden}
+#ludo .ludo-cell.track{background:linear-gradient(145deg,#fff,#f4f0e7);box-shadow:inset 0 1px 2px #00000008}
+#ludo .ludo-cell.safe{background:linear-gradient(145deg,#f9edc9,#eddbab);box-shadow:inset 0 0 0 2px #d5b86e}
+#ludo .ludo-cell.yard-red{background:linear-gradient(145deg,#ed7770,#d94f4a)}
+#ludo .ludo-cell.yard-green{background:linear-gradient(145deg,#78c99b,#42a66e)}
+#ludo .ludo-cell.yard-yellow{background:linear-gradient(145deg,#f7df88,#e8bf43)}
+#ludo .ludo-cell.yard-blue{background:linear-gradient(145deg,#8bbcf0,#5594d9)}
+#ludo .ludo-yard-spot{width:76%;height:76%;background:radial-gradient(circle at 35% 28%,#fff 0%,#fffdf8 62%,#e9e0ce 100%);border:2px solid rgba(71,57,33,.35);border-radius:50%;box-shadow:0 2px 5px #0002,inset 0 2px 5px #00000012}
+#ludo .ludo-cell.lane-red{background:#e95c56;box-shadow:inset 0 0 0 1px #b93834}
+#ludo .ludo-cell.lane-green{background:#4eb77b;box-shadow:inset 0 0 0 1px #278c55}
+#ludo .ludo-cell.lane-yellow{background:#f0c94d;box-shadow:inset 0 0 0 1px #c69a1e}
+#ludo .ludo-cell.lane-blue{background:#579be2;box-shadow:inset 0 0 0 1px #2d70b6}
+#ludo .ludo-cell.center{background:conic-gradient(from -45deg,#e53935 0 25%,#239b56 0 50%,#f2c230 0 75%,#2878d0 0)!important;border:1px solid #fff}
+#ludo .ludo-cell.center>div{font-size:clamp(9px,2.3vw,19px)!important;letter-spacing:1px;text-shadow:0 2px 4px #0008!important}
+#ludo .ludo-token{width:82%;height:82%;border:2px solid #fff!important;box-shadow:0 2px 5px #0006,inset 0 2px 3px #ffffff70!important;font-size:clamp(7px,1.8vw,13px);transition:transform .15s,filter .15s}
+#ludo .ludo-token.selectable{outline:3px solid #382d19;outline-offset:1px;filter:brightness(1.12);animation:ludoPremiumPulse .75s ease-in-out infinite alternate}
+@keyframes ludoPremiumPulse{to{transform:scale(.78);box-shadow:0 0 0 4px #fff9,0 3px 8px #0006!important}}
+#ludo .ludo-status{padding:11px 13px;min-height:44px;margin:13px 0 5px;border-radius:12px;background:#f4ead4;border:1px solid #e4d1a8;color:#5d4a28!important}
+#ludo .ludo-footer{padding-top:5px}
+#ludo .ludo-legend{gap:14px}
+#ludo .ludo-legend span{font-weight:700;color:#5a4c35!important}
+#ludo .ludo-legend i{width:11px;height:11px;box-shadow:0 1px 3px #0003}
+#ludo .ludo-players-info{gap:8px}
+#ludo .ludo-player-chip{padding:9px 12px;background:#fffdf8;border-color:#e1d2b2!important;border-radius:11px;color:#54452d!important;box-shadow:0 2px 5px #5b48230b}
+#ludo .ludo-player-chip.active{background:#f5ecd9;border:2px solid #b58a32!important;box-shadow:0 0 0 2px #b58a3218}
+#ludo .ludo-footer .ghost{background:#4a4336!important;border-color:#4a4336!important}
+@media(max-width:650px){
+ #ludo .ludo-setup{grid-template-columns:1fr 1fr;padding:11px}
+ #ludo .ludo-setup .btn{grid-column:span 2;width:100%}
+ #ludo .ludo-board{border-width:4px;border-radius:8px}
+ #ludo .ludo-shell{padding:10px!important}
+ #ludo .ludo-gamebar{align-items:center;padding:10px;gap:8px}
+ #ludo .ludo-turn{font-size:12px;padding:0;max-width:44%}
+ #ludo .ludo-dice{width:43px;height:43px;font-size:29px}
+ #ludo .ludo-roll{padding:10px 12px!important;min-height:40px}
+}
+@media(max-width:390px){
+ #ludo .ludo-setup{grid-template-columns:1fr}
+ #ludo .ludo-setup .btn{grid-column:auto}
+ #ludo .ludo-gamebar{flex-wrap:wrap}
+ #ludo .ludo-turn{max-width:100%;width:100%}
+ #ludo .ludo-dice-wrap{margin-left:auto}
+}
 </style>
 <style id="akx-chess-arena-wood">#chess .card{background:#fffaf0!important}#chess .head h2{color:#302319}#chessBoard button{font-family:Georgia,"Times New Roman",serif!important}#chessBoard .chess-piece{display:block;font-family:Georgia,"Times New Roman",serif;line-height:1;transform:translateY(-1px)}#chessBoard .chess-piece.white{color:#fffaf0;-webkit-text-stroke:1px #b9a17d;text-shadow:none}#chessBoard .chess-piece.black{color:#211b17;-webkit-text-stroke:1px #090705;text-shadow:none}#chessBoard button:focus-visible{outline:3px solid #f5d16b;outline-offset:-3px;z-index:1}@media(max-width:520px){#chess .card{padding:12px!important}#chessBoard{border-width:6px!important}}</style><style id="akx-ludo-classic">
 .ludo-shell{max-width:900px;margin:0 auto;background:#fffaf0!important}

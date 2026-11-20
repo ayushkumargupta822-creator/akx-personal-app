@@ -49,7 +49,6 @@ render();if(d===6||captured||dest===57){if(d!==6)game.consecutiveSix=0;$('ludoSt
 }
 function nextTurn(){if(!game||game.gameOver)return;game.turn=(game.turn+1)%game.players.length;game.rolled=null;chosen=null;busy=false;render();startComputerIfNeeded()}
 function startComputerIfNeeded(){if(!game||game.gameOver)return;const p=game.players[game.turn];if(p.computer){busy=true;render();animTimer=setTimeout(()=>{if(!game||game.gameOver)return;roll=1+Math.floor(Math.random()*6);afterRoll()},650)}}
-window.ludoMoveToken=window.ludoMoveToken;
-window.ludoModeChanged();
-window.ludoStart();
+window.ludoEnsureReady=()=>{try{if(!game)window.ludoStart();else render();window.ludoModeChanged();}catch(error){const host=$('ludoBoard');if(host)host.innerHTML='<div style="grid-column:1/-1;padding:24px;text-align:center;color:#8b2e22">Ludo could not load. Please refresh the app and try again.</div>';console.error('AKX Ludo initialization failed:',error);}};
+window.ludoEnsureReady();
 })();

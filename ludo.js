@@ -28,7 +28,7 @@ return '';
 function renderBoard(){const host=$('ludoBoard');if(!host)return;let cells='';for(let r=0;r<15;r++)for(let c=0;c<15;c++){const type=cellType(r,c);let content='';if(type.startsWith('yard-')){const p=COLORS.find(x=>type==='yard-'+x.id);if(p.base.some(([rr,cc])=>rr===r&&cc===c))content='<div class="ludo-yard-spot"></div>';}
 let tokens=[];game.players.forEach((p,pi)=>p.tokens.forEach((v,ti)=>{let coord=null;if(v===-1)coord=p.base[ti];else if(v<52)coord=TRACK[globalPos(p,v)];else if(v<57)coord=p.lane[v-52];if(coord&&coord[0]===r&&coord[1]===c)tokens.push({p,pi,ti,v})}));
 if(type==='center')content='<div style="font-size:clamp(8px,2vw,18px);font-weight:900;color:#fff;text-shadow:0 1px 3px #333">AKX</div>';
-if(tokens.length){content=tokens.map(o=>{const isSelectable=chosen&&chosen.pi===o.pi&&chosen.moves.includes(o.ti);return '<button class="ludo-token '+(isSelectable?'selectable':'')+'" style="background:'+o.p.hex+'!important;color:'+(o.p.id==='yellow'?'#352600':'white')+'!important" aria-label="'+o.p.name+' token '+(o.ti+1)+'" '+(isSelectable?'onclick="ludoMoveToken('+o.ti+')"':'disabled')+'>'<span>'+(o.pi+1)+'.'+(o.ti+1)+'</span></button>'}).join('')}
+if(tokens.length){content=tokens.map(o=>{const isSelectable=chosen&&chosen.pi===o.pi&&chosen.moves.includes(o.ti);return '<button class="ludo-token '+(isSelectable?'selectable':'')+'" style="background:'+o.p.hex+'!important;color:'+(o.p.id==='yellow'?'#352600':'white')+'!important" aria-label="'+o.p.name+' token '+(o.ti+1)+'" '+(isSelectable?'onclick="ludoMoveToken('+o.ti+')"':'disabled')+'><span>'+(o.pi+1)+'.'+(o.ti+1)+'</span></button>'}).join('')}
 cells+='<div class="ludo-cell '+type+'" style="grid-row:'+(r+1)+';grid-column:'+(c+1)+'">'+content+'</div>'}
 host.innerHTML=cells;
 }

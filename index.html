@@ -754,4 +754,28 @@ function finish(all){let el=host();if(!el||!state)return;let prize=state.won?lad
  window.akxCrorepatiExit=function(){state=null;let el=host();if(el)el.style.display='none';document.getElementById('arcadeStage').style.display='block'};
 })();
 
+<style id="akx-fullscreen-game-styles">
+.akx-game-fullscreen{position:fixed!important;inset:0!important;z-index:99999!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;max-height:none!important;min-height:100vh!important;margin:0!important;border:0!important;border-radius:0!important;overflow-y:auto!important;overflow-x:hidden!important;padding:calc(14px + env(safe-area-inset-top)) 14px calc(18px + env(safe-area-inset-bottom))!important;background:var(--bg,#f7f4ed)!important;overscroll-behavior:contain}
+#akxRunnerStage.akx-game-fullscreen{background:#101a28!important;color:#fff!important}
+#akxCrorepatiStage.akx-game-fullscreen{background:#090e2a!important;color:#fff!important}
+body.akx-game-open{overflow:hidden!important}
+.akx-game-fullscreen .akx-kbc{min-height:calc(100dvh - 32px)}
+.akx-game-fullscreen .akx-runner-view{height:min(65vh,650px)!important}
+</style>
+<script id="akx-fullscreen-game-patch">
+(function(){
+ const ids=['arcadeStage','akxRunnerStage','akxCrorepatiStage'];
+ function enter(id){ids.forEach(x=>{const e=document.getElementById(x);if(e&&x!==id)e.classList.remove('akx-game-fullscreen')});const el=document.getElementById(id);if(!el)return;el.classList.add('akx-game-fullscreen');document.body.classList.add('akx-game-open');window.scrollTo(0,0)}
+ function leave(id){const el=document.getElementById(id);if(el)el.classList.remove('akx-game-fullscreen');if(!ids.some(x=>{const e=document.getElementById(x);return e&&e.classList.contains('akx-game-fullscreen')}))document.body.classList.remove('akx-game-open')}
+ const wrap=(name,onEnter,onLeave)=>{const old=window[name];if(typeof old!=='function')return;window[name]=function(){const out=old.apply(this,arguments);if(onEnter)enter(onEnter);if(onLeave)leave(onLeave);return out}};
+ wrap('arcadeOpen','arcadeStage');wrap('arcadeHome',null,'arcadeStage');
+ wrap('akxLaunchSnake','arcadeStage');wrap('akxLaunchRacer','arcadeStage');
+ wrap('akxArcadeHome',null,'arcadeStage');
+ wrap('akxStartRunner','akxRunnerStage');wrap('akxExitRunner',null,'akxRunnerStage');
+ const quiz=window.akxCrorepatiStart;
+ if(typeof quiz==='function')window.akxCrorepatiStart=function(){quiz.apply(this,arguments);enter('akxCrorepatiStage');const host=document.getElementById('akxCrorepatiStage');if(host&&!host.querySelector('.akx-kbc-close')){const b=document.createElement('button');b.className='akx-kbc-close';b.textContent='✕ EXIT';b.setAttribute('onclick','akxCrorepatiExit()');b.style.cssText='position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:100001;background:#ffffff18;color:#fff;border:1px solid #ffffff66;border-radius:9px;padding:9px 12px;font-weight:800';host.appendChild(b)}};
+ wrap('akxCrorepatiExit',null,'akxCrorepatiStage');
+ const oldGo=window.go;if(typeof oldGo==='function')window.go=function(id){if(id!=='arcade')ids.forEach(leave);return oldGo.apply(this,arguments)};
+})();
+</script>
 </script></body></html>

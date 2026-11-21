@@ -362,6 +362,10 @@ nav button.active,.nav button.active,.bottomnav button.active,.tab.active,[aria-
 .akx-kbc-result p{color:#e0e4ff!important}
 @media(max-width:700px){.akx-kbc-layout{grid-template-columns:1fr}.akx-kbc-side{order:2}.akx-kbc-ladder{grid-template-columns:repeat(3,1fr)}.akx-kbc-level{font-size:9px}.akx-kbc-lifelines{grid-template-columns:repeat(4,1fr)}.akx-kbc-life{font-size:10px;padding:8px 2px}.akx-kbc-options{grid-template-columns:1fr}.akx-kbc-question{padding:18px 12px}}
 @media(max-width:380px){.akx-kbc-lifelines{grid-template-columns:repeat(2,1fr)}}
+</style><style id="akx-fullscreen-game-styles">
+.akx-game-fullscreen{position:fixed!important;inset:0!important;z-index:99999!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;max-height:none!important;min-height:100vh!important;margin:0!important;border:0!important;border-radius:0!important;overflow-y:auto!important;overflow-x:hidden!important;padding:calc(14px + env(safe-area-inset-top)) 14px calc(18px + env(safe-area-inset-bottom))!important;overscroll-behavior:contain}
+body.akx-game-open{overflow:hidden!important}
+#akxCrorepatiStage.akx-game-fullscreen{background:#090e2a!important;color:#fff!important}
 </style></head><body><div class="app"><aside class="side"><div class="brand"><span class="logo">A</span>AKX <small style="color:#778">OS</small></div><div class="eyebrow" style="padding:10px">WORKSPACE</div><nav class="nav" id="sideNav"></nav></aside><main class="main"><header class="top"><button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Open menu">☰ <span>Menu</span></button><div><div class="eyebrow">PERSONAL OPERATING SYSTEM</div><div class="hello" id="greeting">Good day.</div><div class="muted" id="today"></div></div><div class="avatar" id="profileAvatar">AKX</div></header><div class="akx-search-row"><input id="akxSearch" class="field" aria-label="Search AKX" placeholder="Search AKX..." onkeydown="if(event.key==='Enter')globalSearch(this.value)"><button class="ghost" onclick="globalSearch(document.getElementById('akxSearch').value)">Search</button></div>
 <section class="page active" id="dashboard"><div class="grid">
 <div class="card s12 akx-avatar-showcase" id="akxAvatarCard"><div class="cardtitle"><span>✦ AKX AVATAR STUDIO</span><span class="pill">3D · INTERACTIVE</span></div><div class="akx-avatar-layout"><div class="akx-avatar-stage"><div class="akx-avatar-stage-top"><span>AKX AVATAR</span><span>✦ SINGLE AVATAR</span></div><div class="akx-avatar-view"><canvas id="akxAvatarCanvas" aria-label="Single interactive 3D red and yellow cartoon avatar"></canvas><div class="akx-avatar-loading" id="akxAvatarLoading">Loading 3D avatar…</div><div class="akx-avatar-stage-bottom">DRAG TO ROTATE <span>● LIVE MODEL</span></div></div></div><div class="akx-avatar-info"><div class="eyebrow">AKX AVATAR</div><h3>My Cartoon Avatar</h3><p class="muted">A single red-and-yellow cartoon character. Drag the 3D model to rotate and view it from every angle.</p><div class="akx-avatar-current"><span class="akx-avatar-crown">✦</span><span><b>Selected avatar</b><small>Red top · Yellow shorts</small></span></div><small class="muted" id="akxAvatarStatus">3D avatar · drag to rotate</small><div class="akx-avatar-footnote">ONE AVATAR. AKX.</div></div></div></div>
@@ -754,28 +758,29 @@ function finish(all){let el=host();if(!el||!state)return;let prize=state.won?lad
  window.akxCrorepatiExit=function(){state=null;let el=host();if(el)el.style.display='none';document.getElementById('arcadeStage').style.display='block'};
 })();
 
-<style id="akx-fullscreen-game-styles">
-.akx-game-fullscreen{position:fixed!important;inset:0!important;z-index:99999!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;max-height:none!important;min-height:100vh!important;margin:0!important;border:0!important;border-radius:0!important;overflow-y:auto!important;overflow-x:hidden!important;padding:calc(14px + env(safe-area-inset-top)) 14px calc(18px + env(safe-area-inset-bottom))!important;background:var(--bg,#f7f4ed)!important;overscroll-behavior:contain}
-#akxRunnerStage.akx-game-fullscreen{background:#101a28!important;color:#fff!important}
-#akxCrorepatiStage.akx-game-fullscreen{background:#090e2a!important;color:#fff!important}
-body.akx-game-open{overflow:hidden!important}
-.akx-game-fullscreen .akx-kbc{min-height:calc(100dvh - 32px)}
-.akx-game-fullscreen .akx-runner-view{height:min(65vh,650px)!important}
-</style>
-<script id="akx-fullscreen-game-patch">
+
+/* AKX fullscreen game handling — kept inside the main application script */
 (function(){
- const ids=['arcadeStage','akxRunnerStage','akxCrorepatiStage'];
- function enter(id){ids.forEach(x=>{const e=document.getElementById(x);if(e&&x!==id)e.classList.remove('akx-game-fullscreen')});const el=document.getElementById(id);if(!el)return;el.classList.add('akx-game-fullscreen');document.body.classList.add('akx-game-open');window.scrollTo(0,0)}
- function leave(id){const el=document.getElementById(id);if(el)el.classList.remove('akx-game-fullscreen');if(!ids.some(x=>{const e=document.getElementById(x);return e&&e.classList.contains('akx-game-fullscreen')}))document.body.classList.remove('akx-game-open')}
- const wrap=(name,onEnter,onLeave)=>{const old=window[name];if(typeof old!=='function')return;window[name]=function(){const out=old.apply(this,arguments);if(onEnter)enter(onEnter);if(onLeave)leave(onLeave);return out}};
+ const stageIds=['arcadeStage','akxRunnerStage','akxCrorepatiStage'];
+ function clear(){stageIds.forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove('akx-game-fullscreen')});document.body.classList.remove('akx-game-open')}
+ function show(id){clear();const e=document.getElementById(id);if(!e)return;e.classList.add('akx-game-fullscreen');document.body.classList.add('akx-game-open');window.scrollTo(0,0)}
+ function wrap(name,enterId,leaveId){const fn=window[name];if(typeof fn!=='function')return;window[name]=function(){const out=fn.apply(this,arguments);if(leaveId)clear();if(enterId)show(enterId);return out}}
  wrap('arcadeOpen','arcadeStage');wrap('arcadeHome',null,'arcadeStage');
- wrap('akxLaunchSnake','arcadeStage');wrap('akxLaunchRacer','arcadeStage');
- wrap('akxArcadeHome',null,'arcadeStage');
+ wrap('akxLaunchSnake','arcadeStage');wrap('akxLaunchRacer','arcadeStage');wrap('akxArcadeHome',null,'arcadeStage');
  wrap('akxStartRunner','akxRunnerStage');wrap('akxExitRunner',null,'akxRunnerStage');
- const quiz=window.akxCrorepatiStart;
- if(typeof quiz==='function')window.akxCrorepatiStart=function(){quiz.apply(this,arguments);enter('akxCrorepatiStage');const host=document.getElementById('akxCrorepatiStage');if(host&&!host.querySelector('.akx-kbc-close')){const b=document.createElement('button');b.className='akx-kbc-close';b.textContent='✕ EXIT';b.setAttribute('onclick','akxCrorepatiExit()');b.style.cssText='position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:100001;background:#ffffff18;color:#fff;border:1px solid #ffffff66;border-radius:9px;padding:9px 12px;font-weight:800';host.appendChild(b)}};
- wrap('akxCrorepatiExit',null,'akxCrorepatiStage');
- const oldGo=window.go;if(typeof oldGo==='function')window.go=function(id){if(id!=='arcade')ids.forEach(leave);return oldGo.apply(this,arguments)};
+ wrap('akxCrorepatiStart','akxCrorepatiStage');wrap('akxCrorepatiExit',null,'akxCrorepatiStage');
+ const nav=window.go;if(typeof nav==='function')window.go=function(id){if(id!=='arcade')clear();return nav.apply(this,arguments)};
+ // Also catch arcade launch buttons whose handlers are declared locally rather than on window.
+ document.addEventListener('click',function(ev){
+  const btn=ev.target.closest('#arcadeStage button, #arcadeStage [onclick]');
+  if(!btn)return;
+  setTimeout(function(){
+   const quiz=document.getElementById('akxCrorepatiStage'),runner=document.getElementById('akxRunnerStage'),arcade=document.getElementById('arcadeStage');
+   if(quiz&&getComputedStyle(quiz).display!=='none')show('akxCrorepatiStage');
+   else if(runner&&getComputedStyle(runner).display!=='none'&&runner.innerHTML.trim())show('akxRunnerStage');
+   else if(arcade&&getComputedStyle(arcade).display!=='none')show('arcadeStage');
+  },80);
+ },true);
 })();
-</script>
+
 </script></body></html>

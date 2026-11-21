@@ -177,8 +177,7 @@ nav button.active,.nav button.active,.bottomnav button.active,.tab.active,[aria-
  #ludo .ludo-board{border-width:4px;border-radius:8px}
  #ludo .ludo-shell{padding:10px!important}
  #ludo .ludo-gamebar{align-items:center;padding:10px;gap:8px}
- #ludo .ludo-turn{font-size:12px;padding:0;max-width:44%}
- #ludo .ludo-dice{width:43px;height:43px;font-size:29px}
+ #ludo .ludo-turn{font-size:12px;padding:0;max-width:44%} #ludo .ludo-dice{width:43px;height:43px;font-size:29px}
  #ludo .ludo-roll{padding:10px 12px!important;min-height:40px}
 }
 @media(max-width:390px){
@@ -311,6 +310,58 @@ nav button.active,.nav button.active,.bottomnav button.active,.tab.active,[aria-
 #arcade .akx-daily{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f6eedf;border:1px solid #e5d5b3;border-radius:13px;padding:12px;margin:13px 0}#arcade .akx-daily p{margin:4px 0 0;font-size:11px;color:#786d59!important}#arcade .akx-daily>b{color:#9a7124!important}
 #arcade .akx-achievements{display:flex;flex-wrap:wrap;gap:7px}#arcade .akx-achievement{font-size:10px;padding:7px 9px;border-radius:20px;background:#f0eadf;color:#8b806c;border:1px solid #e5d5b3}#arcade .akx-achievement.on{background:#efe3c6;color:#72551c;border-color:#d9c18b;font-weight:800}
 #arcade .akx-game-wrap{max-width:520px;margin:8px auto;background:#18231b;border:2px solid #d8c28f;border-radius:15px;overflow:hidden}#arcade .akx-game-wrap canvas{display:block;width:100%;height:auto;touch-action:none}#arcade .akx-game-controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px auto}#arcade .akx-game-controls button{min-width:58px;padding:10px 14px!important}
+</style><style id="akx-crorepati-styles">
+/* AKX CROREPATI — quiz-show interface */
+.arcade-card.arc-crorepati{background:linear-gradient(135deg,#151b43,#25266b 58%,#512b72)!important;color:#fff!important;border:1px solid #b9a2ff!important}
+.arcade-card.arc-crorepati strong,.arcade-card.arc-crorepati small{color:#fff!important}
+.arcade-card.arc-crorepati .arcade-tag{background:#ffffff25;color:#e7dcff!important}
+#akxCrorepatiStage{padding:0!important;overflow:hidden;background:#090e2a!important;border:1px solid #55458b!important;color:#fff!important}
+#akxCrorepatiStage *{box-sizing:border-box}
+.akx-kbc{padding:clamp(14px,3vw,28px);color:#fff;background:radial-gradient(ellipse at 50% 0%,#293c87 0%,#121b4b 48%,#090e29 100%);border-radius:17px;min-height:500px}
+.akx-kbc-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.akx-kbc-brand{font-weight:950;letter-spacing:1.5px;color:#f7d98a;font-size:clamp(18px,3vw,25px)}
+.akx-kbc-brand small{display:block;color:#c6c9f3!important;font-size:9px;letter-spacing:2.5px}
+.akx-kbc-round{font-size:11px;color:#d8dcff;background:#ffffff13;border:1px solid #ffffff25;border-radius:30px;padding:7px 11px}
+.akx-kbc-layout{display:grid;grid-template-columns:minmax(0,1fr) 205px;gap:18px;margin-top:20px}
+.akx-kbc-main{min-width:0}
+.akx-kbc-lifelines{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-bottom:18px}
+.akx-kbc-life{background:linear-gradient(145deg,#202e70,#121c4b);color:#fff;border:1px solid #8c8fce;border-radius:12px;padding:10px 4px;font-size:11px;font-weight:800;min-height:57px}
+.akx-kbc-life span{display:block;font-size:19px;margin-bottom:3px}
+.akx-kbc-life:disabled{opacity:.35;filter:grayscale(1);cursor:not-allowed}
+.akx-kbc-question{border:1px solid #8f8bce;background:linear-gradient(110deg,#1a2864,#30235f);padding:22px 16px;border-radius:18px;text-align:center;box-shadow:0 0 24px #151b66a8;margin:12px 0 15px}
+.akx-kbc-qnum{font-size:10px;letter-spacing:2px;color:#f2d78b;font-weight:900;margin-bottom:10px}
+.akx-kbc-qtext{font-size:clamp(16px,2.4vw,21px);line-height:1.4;font-weight:750;color:#fff!important}
+.akx-kbc-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.akx-kbc-option{border:1px solid #8b8ac5;border-radius:30px;background:linear-gradient(100deg,#1b2c70,#211e5d);color:#fff;padding:13px 14px;text-align:left;font-size:13px;min-height:49px;transition:.15s}
+.akx-kbc-option b{color:#f5d477!important;margin-right:8px}
+.akx-kbc-option:not(:disabled):hover{background:linear-gradient(100deg,#354da0,#4b3b91);border-color:#f4d47b}
+.akx-kbc-option.correct{background:#155c48;border-color:#5de2a7}
+.akx-kbc-option.wrong{background:#792f49;border-color:#ff9eac}
+.akx-kbc-option:disabled{cursor:default;opacity:.75}
+.akx-kbc-option.hidden50{visibility:hidden}
+.akx-kbc-feedback{min-height:39px;margin-top:12px;color:#f4d989!important;font-size:13px;text-align:center}
+.akx-kbc-side{border:1px solid #ffffff27;border-radius:15px;padding:12px;background:#080f30a8}
+.akx-kbc-side h4{color:#f5d989!important;margin:2px 0 10px;font-size:12px;letter-spacing:1px}
+.akx-kbc-ladder{display:grid;gap:4px}
+.akx-kbc-level{display:flex;justify-content:space-between;gap:6px;padding:5px 8px;border-radius:7px;color:#c6cbed;font-size:10px}
+.akx-kbc-level b{color:inherit!important}
+.akx-kbc-level.current{background:#b78c38;color:#11152f;font-weight:900}
+.akx-kbc-level.safe{color:#ffe39a}
+.akx-kbc-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:17px}
+.akx-kbc-bottom button{border-radius:10px;padding:10px 14px}
+.akx-kbc-quit{background:#ffffff12;border:1px solid #ffffff35;color:#fff}
+.akx-kbc-start{background:linear-gradient(100deg,#f5d987,#dba846);border:0;color:#241a08;font-weight:900}
+.akx-kbc-modal{margin-top:12px;padding:13px;border:1px solid #a49be0;border-radius:12px;background:#111a48;color:#f4f1ff;font-size:13px}
+.akx-kbc-modal strong{color:#f5d987!important}
+.akx-kbc-poll{display:grid;grid-template-columns:20px 1fr 36px;gap:8px;align-items:center;margin:9px 0;font-size:11px}
+.akx-kbc-pollbar{height:9px;border-radius:8px;background:#ffffff20;overflow:hidden}
+.akx-kbc-pollbar i{display:block;height:100%;background:linear-gradient(90deg,#e5bf62,#fff0ae);border-radius:8px}
+.akx-kbc-result{text-align:center;padding:35px 10px}
+.akx-kbc-result .trophy{font-size:52px}
+.akx-kbc-result h3{font-size:25px;color:#f5d987!important;margin:8px}
+.akx-kbc-result p{color:#e0e4ff!important}
+@media(max-width:700px){.akx-kbc-layout{grid-template-columns:1fr}.akx-kbc-side{order:2}.akx-kbc-ladder{grid-template-columns:repeat(3,1fr)}.akx-kbc-level{font-size:9px}.akx-kbc-lifelines{grid-template-columns:repeat(4,1fr)}.akx-kbc-life{font-size:10px;padding:8px 2px}.akx-kbc-options{grid-template-columns:1fr}.akx-kbc-question{padding:18px 12px}}
+@media(max-width:380px){.akx-kbc-lifelines{grid-template-columns:repeat(2,1fr)}}
 </style></head><body><div class="app"><aside class="side"><div class="brand"><span class="logo">A</span>AKX <small style="color:#778">OS</small></div><div class="eyebrow" style="padding:10px">WORKSPACE</div><nav class="nav" id="sideNav"></nav></aside><main class="main"><header class="top"><button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Open menu">☰ <span>Menu</span></button><div><div class="eyebrow">PERSONAL OPERATING SYSTEM</div><div class="hello" id="greeting">Good day.</div><div class="muted" id="today"></div></div><div class="avatar" id="profileAvatar">AKX</div></header><div class="akx-search-row"><input id="akxSearch" class="field" aria-label="Search AKX" placeholder="Search AKX..." onkeydown="if(event.key==='Enter')globalSearch(this.value)"><button class="ghost" onclick="globalSearch(document.getElementById('akxSearch').value)">Search</button></div>
 <section class="page active" id="dashboard"><div class="grid">
 <div class="card s12 akx-avatar-showcase" id="akxAvatarCard"><div class="cardtitle"><span>✦ AKX AVATAR STUDIO</span><span class="pill">3D · INTERACTIVE</span></div><div class="akx-avatar-layout"><div class="akx-avatar-stage"><div class="akx-avatar-stage-top"><span>AKX AVATAR</span><span>✦ SINGLE AVATAR</span></div><div class="akx-avatar-view"><canvas id="akxAvatarCanvas" aria-label="Single interactive 3D red and yellow cartoon avatar"></canvas><div class="akx-avatar-loading" id="akxAvatarLoading">Loading 3D avatar…</div><div class="akx-avatar-stage-bottom">DRAG TO ROTATE <span>● LIVE MODEL</span></div></div></div><div class="akx-avatar-info"><div class="eyebrow">AKX AVATAR</div><h3>My Cartoon Avatar</h3><p class="muted">A single red-and-yellow cartoon character. Drag the 3D model to rotate and view it from every angle.</p><div class="akx-avatar-current"><span class="akx-avatar-crown">✦</span><span><b>Selected avatar</b><small>Red top · Yellow shorts</small></span></div><small class="muted" id="akxAvatarStatus">3D avatar · drag to rotate</small><div class="akx-avatar-footnote">ONE AVATAR. AKX.</div></div></div></div>
@@ -355,7 +406,8 @@ nav button.active,.nav button.active,.bottomnav button.active,.tab.active,[aria-
 <button class="arcade-card arc-tap" onclick="arcadeOpen('tap')"><span class="arcade-icon">👆</span><span class="arcade-tag">ENDURANCE</span><strong>Tap Sprint</strong><small>How many taps in 10 seconds?</small><b class="arcade-play">PLAY NOW ↗</b></button>
 <button class="arcade-card arc-color" onclick="arcadeOpen('color')"><span class="arcade-icon">🎨</span><span class="arcade-tag">FOCUS</span><strong>Color Clash</strong><small>Match the target colour.</small><b class="arcade-play">PLAY NOW ↗</b></button>
 <button class="arcade-card arc-snake" onclick="akxLaunchSnake()"><span class="arcade-icon">🐍</span><span class="arcade-tag">CLASSIC</span><strong>Snake Evolution</strong><small>Collect food, grow longer and beat your best.</small><b class="arcade-play">PLAY NOW ↗</b></button><button class="arcade-card arc-racer" onclick="akxLaunchRacer()"><span class="arcade-icon">🏎️</span><span class="arcade-tag">RACING</span><strong>AKX Mini Racer</strong><small>Dodge traffic and beat your distance record.</small><b class="arcade-play">PLAY NOW ↗</b></button>
-</div><div class="card s12 akx-runner-game" id="akxRunnerStage" style="display:none"></div><div class="arcade-stage card" id="arcadeStage"><div class="arcade-welcome"><div>🕹️</div><h3>Your next high score starts here.</h3><p>Choose any mini-game above to begin. All games run offline on your device.</p></div></div>
+<button class="arcade-card arc-crorepati" onclick="akxCrorepatiStart()"><span class="arcade-icon">🏆</span><span class="arcade-tag">QUIZ SHOW</span><strong>AKX Crorepati</strong><small>15 questions, 4 options and 4 lifelines. Can you reach the jackpot?</small><b class="arcade-play">PLAY NOW ↗</b></button>
+</div><div class="card s12" id="akxCrorepatiStage" style="display:none"></div><div class="card s12 akx-runner-game" id="akxRunnerStage" style="display:none"></div><div class="arcade-stage card" id="arcadeStage"><div class="arcade-welcome"><div>🕹️</div><h3>Your next high score starts here.</h3><p>Choose any mini-game above to begin. All games run offline on your device.</p></div></div>
 </section>
 <section class="page" id="about"><div class="head"><div><div class="eyebrow">ABOUT THIS APP</div><h2>ⓘ About AKX</h2><div class="muted">A personal space to plan, learn and stay organised.</div></div><span class="pill">AKX Personal OS</span></div><div class="grid"><div class="card s12"><div class="cardtitle">Welcome to AKX Study Library</div><p>AKX is a personal productivity and study companion designed to bring your everyday academic work and personal planning together in one place.</p><p>Use Study to track learning, Books to keep your study files organised, Tasks and Routine to manage your day, and Notes, Goals and Stats to review your progress. The AKX AI section helps you prepare study prompts and explore important topics.</p><p class="muted">Your workspace, your plans, your progress — organised in one place.</p></div><div class="card s12"><div class="cardtitle">Created by</div><h2 style="margin:4px 0;color:var(--a)">Ayush Kumar Gupta</h2><p class="muted">Founder & creator of AKX Personal OS</p></div><div class="card s12"><div class="cardtitle">A quick note</div><p class="muted">AKX is a personal project. Your entries are stored on this device unless you use an export or another configured backup method. The AI Study Prompt Studio prepares prompts; it does not currently generate AI answers inside the app.</p></div></div></section></main></div><nav class="mobile" id="mobileNav"></nav><div class="mobile-drawer" id="mobileDrawer" onclick="if(event.target===this)toggleMenu(false)"><div class="mobile-drawer-panel"><div class="mobile-drawer-head"><strong>AKX Menu</strong><button onclick="toggleMenu(false)" aria-label="Close menu">✕</button></div><nav id="mobileMenuNav"></nav></div></div><div class="toast" id="toast"></div><div class="modalback" id="back" onclick="if(event.target===this)closeModal()"><div class="modal"><h3 id="modalTitle">Add</h3><div id="fields"></div><div class="actions"><button class="ghost" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveModal()">Save</button></div></div></div>
 <script>
@@ -619,4 +671,87 @@ function racerTick(){if(!racer||!racer.active)return;racer.tick++;if(racer.tick%
 document.addEventListener('keydown',e=>{if(!$('arcade')?.classList.contains('active'))return;if(kind==='snake'){if(e.key==='ArrowUp'||e.key==='w')akxSnakeTurn('up');if(e.key==='ArrowDown'||e.key==='s')akxSnakeTurn('down');if(e.key==='ArrowLeft'||e.key==='a')akxSnakeTurn('left');if(e.key==='ArrowRight'||e.key==='d')akxSnakeTurn('right')}else if(kind==='racer'){if(e.key==='ArrowLeft'||e.key==='a')akxRacerMove(-1);if(e.key==='ArrowRight'||e.key==='d')akxRacerMove(1)}});
 let priorGo=window.go;if(typeof priorGo==='function')window.go=function(id){if(id!=='arcade')stop();priorGo(id)};paintRewards();
 })();
+
+/* AKX CROREPATI — self-contained offline quiz engine */
+(function(){
+const host=()=>document.getElementById('akxCrorepatiStage');
+const ladder=['₹1,000','₹2,000','₹3,000','₹5,000','₹10,000','₹20,000','₹40,000','₹80,000','₹1,60,000','₹3,20,000','₹6,40,000','₹12,50,000','₹25,00,000','₹50,00,000','₹1 CRORE'];
+const bank=[
+[
+['Which planet is known as the Red Planet?',['Venus','Mars','Jupiter','Mercury'],1,'Mars looks reddish because of iron-rich dust on its surface.'],
+['How many sides does a hexagon have?',['Five','Six','Seven','Eight'],1,'The prefix “hexa” means six.'],
+['Which is the largest ocean on Earth?',['Atlantic','Indian','Pacific','Arctic'],2,'It covers more area than any other ocean.'],
+['What is the national animal of India?',['Lion','Bengal tiger','Elephant','Leopard'],1,'It is a striped big cat.'],
+['Which gas do plants absorb during photosynthesis?',['Oxygen','Nitrogen','Carbon dioxide','Hydrogen'],2,'Plants use it along with water and sunlight.'],
+['How many colours are traditionally listed in a rainbow?',['Five','Six','Seven','Eight'],2,'The familiar sequence begins with violet and ends with red.'],
+['Which instrument measures temperature?',['Barometer','Thermometer','Ammeter','Hygrometer'],1,'It commonly uses Celsius or Fahrenheit scales.'],
+['What is the capital of Japan?',['Seoul','Beijing','Tokyo','Bangkok'],2,'It is also Japan’s largest city.'],
+['Which animal is the tallest in the world?',['Elephant','Giraffe','Ostrich','Camel'],1,'Its long neck helps it reach high branches.'],
+['How many players from one team are on a football field at the start of a standard match?',['9','10','11','12'],2,'The goalkeeper is included in this number.'],
+['Which part of a plant usually absorbs water from soil?',['Leaf','Flower','Root','Fruit'],2,'This underground part also anchors the plant.'],
+['Which is the smallest prime number?',['0','1','2','3'],2,'It is the only even prime number.']
+],
+[
+['Who was the first person to walk on the Moon?',['Yuri Gagarin','Neil Armstrong','Buzz Aldrin','Michael Collins'],1,'He stepped onto the lunar surface during Apollo 11.'],
+['Which Indian river is often called the “Dakshin Ganga”?',['Krishna','Godavari','Kaveri','Narmada'],1,'It is one of the longest rivers in peninsular India.'],
+['What is the chemical symbol for sodium?',['So','Sd','Na','S'],2,'Its symbol comes from the Latin name natrium.'],
+['In which year did the Constitution of India come into effect?',['1947','1949','1950','1952'],2,'India celebrates Republic Day on this date each year.'],
+['Which is the hardest naturally occurring substance?',['Quartz','Diamond','Graphite','Topaz'],1,'It is a crystalline form of carbon.'],
+['Who wrote the play “Abhijnanashakuntalam”?',['Kalidasa','Banabhatta','Tulsidas','Bhavabhuti'],0,'He is one of the best-known classical Sanskrit poets.'],
+['Which layer of the atmosphere contains most of the ozone layer?',['Troposphere','Stratosphere','Mesosphere','Thermosphere'],1,'It lies above the troposphere.'],
+['What is the SI unit of electric current?',['Volt','Ohm','Ampere','Watt'],2,'It is named after physicist André-Marie Ampère.'],
+['Which Mughal emperor commissioned the Taj Mahal?',['Akbar','Babur','Shah Jahan','Aurangzeb'],2,'He built it in memory of Mumtaz Mahal.'],
+['Which country gifted the Statue of Liberty to the United States?',['United Kingdom','France','Italy','Spain'],1,'The gift commemorated friendship between the two nations.'],
+['What is the value of pi correct to two decimal places?',['3.12','3.14','3.16','3.18'],1,'It is the ratio of a circle’s circumference to its diameter.'],
+['Which blood cells help the body fight infections?',['Red blood cells','Platelets','White blood cells','Plasma'],2,'They are also called leukocytes.']
+],
+[
+['Which treaty formally ended World War I between Germany and the Allied Powers?',['Treaty of Paris','Treaty of Versailles','Treaty of Tordesillas','Treaty of Vienna'],1,'It was signed in 1919 in a palace near Paris.'],
+['Which mathematician is credited with the incompleteness theorems?',['Alan Turing','Kurt Gödel','John von Neumann','David Hilbert'],1,'His first incompleteness theorem was published in 1931.'],
+['The “Great Red Spot” is a giant storm on which planet?',['Saturn','Neptune','Jupiter','Uranus'],2,'It has been observed for centuries.'],
+['Which Indian mathematician is famous for work on number theory and partitions?',['C. V. Raman','Srinivasa Ramanujan','S. N. Bose','Homi Bhabha'],1,'His notebooks contain many remarkable identities.'],
+['What is the name of the boundary around a black hole beyond which light cannot escape?',['Singularity','Event horizon','Accretion disc','Photon belt'],1,'It marks the point of no return.'],
+['Which element has the atomic number 74?',['Tungsten','Platinum','Osmium','Lead'],0,'Its chemical symbol is W.'],
+['In computing, what does “HTTP” stand for?',['HyperText Transfer Protocol','High Transfer Text Program','Hyperlink Terminal Transfer Process','Host Text Transmission Protocol'],0,'It is the protocol used for transferring web resources.'],
+['Which ancient civilisation developed the writing system known as cuneiform?',['Ancient Greeks','Sumerians','Romans','Phoenicians'],1,'They lived in ancient Mesopotamia.'],
+['Who proposed the uncertainty principle in quantum mechanics?',['Niels Bohr','Werner Heisenberg','Max Planck','Erwin Schrödinger'],1,'It describes limits on simultaneously knowing certain pairs of quantities.'],
+['Which strait separates Asia and North America?',['Strait of Hormuz','Bering Strait','Malacca Strait','Gibraltar Strait'],1,'It lies between Russia and Alaska.'],
+['What is the study of fungi called?',['Botany','Mycology','Ecology','Virology'],1,'The field studies organisms such as mushrooms and moulds.'],
+['Which Indian space mission made a soft landing near the Moon’s south polar region in 2023?',['Mangalyaan','Chandrayaan-2','Chandrayaan-3','Aditya-L1'],2,'Its lander was named Vikram.']
+]
+];
+let state=null;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function start(){let questions=[...shuffle(bank[0]).slice(0,5),...shuffle(bank[1]).slice(0,5),...shuffle(bank[2]).slice(0,5)];state={questions,index:0,used:{fifty:false,audience:false,expert:false,skip:false},locked:false,won:0};render()}
+function render(){
+ const el=host();if(!el||!state)return;const q=state.questions[state.index];if(!q){finish(true);return}
+ const [question,opts,answer,hint]=q;
+ const levels=ladder.map((v,i)=>'<div class="akx-kbc-level '+(i===state.index?'current':i===4||i===9?'safe':'')+'"><span>'+(i+1)+'.</span><b>'+v+'</b></div>').reverse().join('');
+ el.innerHTML='<div class="akx-kbc"><div class="akx-kbc-top"><div class="akx-kbc-brand">🏆 AKX CROREPATI<small>THE ULTIMATE QUIZ CHALLENGE</small></div><div class="akx-kbc-round">QUESTION '+(state.index+1)+' / 15</div></div><div class="akx-kbc-layout"><div class="akx-kbc-main"><div class="akx-kbc-lifelines">'+life('fifty','½','50:50')+life('audience','📊','Audience')+life('expert','💡','Expert')+life('skip','⏭','Skip')+'</div><div class="akx-kbc-question"><div class="akx-kbc-qnum">FOR '+ladder[state.index]+'</div><div class="akx-kbc-qtext">'+esc(question)+'</div></div><div class="akx-kbc-options">'+opts.map((o,i)=>'<button class="akx-kbc-option" data-option="'+i+'" onclick="akxCrorepatiAnswer('+i+')"><b>'+String.fromCharCode(65+i)+'.</b>'+esc(o)+'</button>').join('')+'</div><div class="akx-kbc-feedback" id="akxKbcFeedback">Choose your answer to lock it in.</div><div id="akxKbcExtra"></div><div class="akx-kbc-bottom"><button class="akx-kbc-quit" onclick="akxCrorepatiQuit()">Take the money & quit</button><span style="font-size:11px;color:#cbd1f5">Current prize: <b style="color:#f5d987">'+(state.won?ladder[state.won-1]:'₹0')+'</b></span></div></div><aside class="akx-kbc-side"><h4>🏅 PRIZE LADDER</h4><div class="akx-kbc-ladder">'+levels+'</div></aside></div></div>';
+}
+function life(id,icon,label){let used=state.used[id];return '<button class="akx-kbc-life" '+(used?'disabled':'')+' onclick="akxCrorepatiLife(\''+id+'\')"><span>'+icon+'</span>'+label+(used?' ✓':'')+'</button>'}
+function answer(i){
+ if(!state||state.locked)return;const q=state.questions[state.index];state.locked=true;
+ document.querySelectorAll('#akxCrorepatiStage .akx-kbc-option').forEach((b,n)=>{b.disabled=true;if(n===q[2])b.classList.add('correct');if(n===i&&i!==q[2])b.classList.add('wrong')});
+ const fb=document.getElementById('akxKbcFeedback');
+ if(i===q[2]){state.won=state.index+1;if(fb)fb.textContent='✓ Absolutely correct! You have won '+ladder[state.index]+'.';setTimeout(()=>{state.index++;state.locked=false;if(state.index>=15)finish(true);else render()},1250)}
+ else{if(fb)fb.textContent='That is not the correct answer. The correct option is '+String.fromCharCode(65+q[2])+'.';setTimeout(()=>finish(false),1700)}
+}
+function useLife(id){
+ if(!state||state.locked||state.used[id])return;state.used[id]=true;const q=state.questions[state.index],extra=document.getElementById('akxKbcExtra');
+ if(id==='fifty'){let wrong=shuffle([0,1,2,3].filter(x=>x!==q[2])).slice(0,2);wrong.forEach(i=>{let b=document.querySelector('#akxCrorepatiStage [data-option="'+i+'"]');if(b)b.classList.add('hidden50');});}
+ if(id==='audience'){let weights=[8,8,8,8];weights[q[2]]=58+Math.floor(Math.random()*22);let remain=100-weights[q[2]];let others=[0,1,2,3].filter(x=>x!==q[2]);let split=[Math.floor(remain*.48),Math.floor(remain*.32),0];split[2]=remain-split[0]-split[1];shuffle(others).forEach((v,i)=>weights[v]=split[i]);if(extra)extra.innerHTML='<div class="akx-kbc-modal"><strong>📊 Audience Poll</strong><p style="color:#e5e6ff!important">Simulated audience votes</p>'+weights.map((v,i)=>'<div class="akx-kbc-poll"><b>'+String.fromCharCode(65+i)+'</b><div class="akx-kbc-pollbar"><i style="width:'+v+'%"></i></div><span>'+v+'%</span></div>').join('')+'</div>'}
+ if(id==='expert'&&extra)extra.innerHTML='<div class="akx-kbc-modal"><strong>💡 Expert says:</strong><p style="color:#f1edff!important;margin:7px 0 0">'+esc(q[3])+'</p></div>';
+ if(id==='skip'){state.locked=true;const fb=document.getElementById('akxKbcFeedback');if(fb)fb.textContent='Question skipped. Your prize level stays the same.';setTimeout(()=>{state.index++;state.locked=false;if(state.index>=15)finish(true);else render()},900)}
+ renderLifelines();
+}
+function renderLifelines(){if(!state)return;document.querySelectorAll('#akxCrorepatiStage .akx-kbc-life').forEach(b=>{let key=b.getAttribute('onclick').match(/'([^']+)'/)[1];if(state.used[key])b.disabled=true})}
+function finish(all){let el=host();if(!el||!state)return;let prize=state.won?ladder[state.won-1]:'₹0';el.innerHTML='<div class="akx-kbc"><div class="akx-kbc-result"><div class="trophy">'+(all?'🏆':'🎮')+'</div><h3>'+(all?'You are the AKX Crorepati!':state.won?'Game Over!':'Good try!')+'</h3><p>You answered '+state.won+' of 15 questions correctly.</p><p>Virtual winnings: <strong style="color:#f5d987">'+prize+'</strong></p><p style="font-size:11px">This is a just-for-fun quiz. No real money or prizes.</p><button class="akx-kbc-start" onclick="akxCrorepatiStart()">PLAY AGAIN ↻</button> <button class="akx-kbc-quit" onclick="akxCrorepatiExit()">BACK TO ARCADE</button></div></div>';state=null}
+ window.akxCrorepatiStart=function(){let el=host();if(!el)return;el.style.display='block';document.getElementById('akxRunnerStage').style.display='none';document.getElementById('arcadeStage').style.display='none';start();el.scrollIntoView({behavior:'smooth',block:'start'})};
+ window.akxCrorepatiAnswer=answer;window.akxCrorepatiLife=useLife;
+ window.akxCrorepatiQuit=function(){if(!state)return;finish(false)};
+ window.akxCrorepatiExit=function(){state=null;let el=host();if(el)el.style.display='none';document.getElementById('arcadeStage').style.display='block'};
+})();
+
 </script></body></html>

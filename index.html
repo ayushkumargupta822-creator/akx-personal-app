@@ -825,28 +825,114 @@ function finish(all){let el=host();if(!el||!state)return;let prize=state.won?lad
 
 </script><script type="module" id="akx-street-racing-game">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-(()=>{const $=id=>document.getElementById(id);let R,S,C,player,raf=0,run=false,lane=0,meters=0,velocity=110,last=0,spawn=0,cars=[],checkpoint=0;
-const M=(c,r=.72)=>new THREE.MeshStandardMaterial({color:c,roughness:r});
-const mat={road:M('#45484b'),stripe:M('#f5f1df'),sand:M('#bba17b'),rock:M('#79664e'),darkRock:M('#514b42'),green:M('#65744a'),glass:M('#132d40',.2),tire:M('#101216'),rim:M('#b7c1c9'),red:M('#cf172b')};
-function cube(p,x,y,z,w,h,d,m){let o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);p.add(o);return o}
-function car(color){let g=new THREE.Group(),body=M(color),trim=M('#151923'),windowM=mat.glass;cube(g,0,.58,0,2.15,.48,4.25,body);cube(g,0,1.02,-.28,1.62,.72,2.05,body);cube(g,0,1.04,-.25,1.45,.51,1.86,windowM);cube(g,0,.79,1.95,1.75,.13,.12,trim);cube(g,0,.79,-2.06,1.8,.12,.1,trim);for(let x of [-1,1])for(let z of [-1.35,1.35]){let w=new THREE.Mesh(new THREE.CylinderGeometry(.39,.39,.25,20),mat.tire);w.rotation.z=Math.PI/2;w.position.set(x*1.08,.38,z);g.add(w);let hub=new THREE.Mesh(new THREE.CylinderGeometry(.2,.2,.26,16),mat.rim);hub.rotation.z=Math.PI/2;hub.position.copy(w.position);g.add(hub)}for(let x of [-.68,.68]){cube(g,x,.65,2.14,.3,.13,.06,M('#fff0c8'));cube(g,x,.65,-2.14,.3,.13,.06,M('#ff3b45'))}return g}
-function mountain(x,z,size){let m=new THREE.Mesh(new THREE.ConeGeometry(1,1.6,6),Math.random()>.5?mat.rock:mat.darkRock);m.position.set(x,size*.42,z);m.scale.set(size,size*1.25,size*.8);m.rotation.y=Math.random()*2;S.add(m);let cap=new THREE.Mesh(new THREE.ConeGeometry(.5,.45,6),mat.sand);cap.position.set(x,size*1.05,z);cap.scale.set(size*.65,size*.7,size*.6);S.add(cap)}
-function init(){const canvas=$('akxStreetCanvas');S=new THREE.Scene();S.background=new THREE.Color('#77c7f0');S.fog=new THREE.Fog('#c2c9c1',85,300);C=new THREE.PerspectiveCamera(64,1,.1,600);C.position.set(0,6.2,12);R=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});R.setPixelRatio(Math.min(devicePixelRatio||1,1.7));R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;R.outputColorSpace=THREE.SRGBColorSpace;S.add(new THREE.HemisphereLight('#e5f5ff','#69543a',2));let sun=new THREE.DirectionalLight('#fff0d4',3);sun.position.set(-30,55,25);sun.castShadow=true;S.add(sun);
-cube(S,0,-.3,-115,17,.45,270,mat.road);cube(S,-9,-.45,-115,2,.2,270,mat.sand);cube(S,9,-.45,-115,2,.2,270,mat.sand);cube(S,-22,-.5,-115,24,.2,270,mat.green);cube(S,22,-.5,-115,24,.2,270,mat.green);
-for(let x of [-2.85,2.85])for(let z=-245;z<15;z+=10)cube(S,x,-.055,z,.13,.035,4.6,mat.stripe);
-for(let z=-20;z>-260;z-=13){for(let side of [-1,1]){let x=side*(11+Math.random()*17),sz=4+Math.random()*13;mountain(x,z+Math.random()*8,sz)}}
-for(let z=-10;z>-250;z-=22)for(let side of [-1,1]){cube(S,side*8.7,.8,z,.12,1.6,.12,M('#53575a'));cube(S,side*8.2,1.5,z,.95,.1,.12,M('#53575a'))}
-player=car('#d8172e');player.position.set(0,0,3);S.add(player);resize()}
-function resize(){if(!R)return;let c=$('akxStreetCanvas'),w=c.clientWidth,h=c.clientHeight;if(!w||!h)return;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix()}
-function draw(){if(R)R.render(S,C)}
-function overlay(title,desc,fn){let o=$('akxStreetOverlay');o.innerHTML='<div><h2>'+title+'</h2><p>'+desc+'</p><button class="btn" onclick="'+fn+'">START RACE</button></div>';o.style.display='grid'}
-function spawnCar(){let v=car(['#f0c51d','#286bd0','#e8e8e8','#7045a5'][Math.floor(Math.random()*4)]);v.position.set([-5.6,0,5.6][Math.floor(Math.random()*3)],0,-140);S.add(v);cars.push(v)}
-function end(){run=false;let best=Math.max(Number(localStorage.getItem('akx_street_best')||0),Math.floor(meters));localStorage.setItem('akx_street_best',best);overlay('RACE COMPLETE','Distance '+Math.floor(meters)+' m · Best '+best+' m','akxStreetRun()')}
-function frame(t){raf=requestAnimationFrame(frame);let dt=Math.min(.04,(t-last)/1000||.016);last=t;if(run){meters+=velocity*dt*.28;velocity=Math.min(260,velocity+dt*2.5);spawn+=dt;if(spawn>1.1){spawn=0;spawnCar()}player.position.x+=(lane*5.5-player.position.x)*Math.min(1,dt*5);player.rotation.z+=(lane*.08-player.rotation.z)*dt*4;for(let i=cars.length-1;i>=0;i--){let v=cars[i];v.position.z+=velocity*dt*.52;if(v.position.z>8){S.remove(v);cars.splice(i,1);continue}if(v.position.z>-.8&&v.position.z<5.4&&Math.abs(v.position.x-player.position.x)<2.1){end();break}}C.position.x+=(player.position.x*.22-C.position.x)*dt*2;C.lookAt(player.position.x*.16,1,-19);if(Math.floor(meters/500)>checkpoint){checkpoint++;$('akxStreetCheckpoint').textContent='CHECKPOINT '+checkpoint}$('akxStreetDistance').textContent='DIST '+Math.floor(meters)+' m';$('akxStreetSpeed').textContent='SPEED '+Math.floor(velocity)+' km/h'}draw()}
+(()=>{
+const $=id=>document.getElementById(id);
+let R,S,C,player,raf=0,run=false,lane=0,meters=0,velocity=145,last=0,spawn=0,cars=[],checkpoint=0,roadMarks=[],props=[],touchX=null;
+const mat=(c,r=.72,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
+const M={
+ asphalt:mat('#30343b',.94),line:mat('#f8f3d9'),edge:mat('#d5d0c4'),sand:mat('#a68c69'),
+ barrier:mat('#c5c8c8',.8),barrierDark:mat('#5d646b'),green:mat('#596b45'),
+ glass:mat('#102536',.18,.25),rubber:mat('#101216'),rim:mat('#aeb8c2',.25,.72),
+ chrome:mat('#d9e1e8',.22,.8),black:mat('#171b22'),red:mat('#c8192e',.3,.35),
+ white:mat('#fff1cc',.22),tail:mat('#ff263f',.22),yellow:mat('#f4c84a'),
+ rock:mat('#756553'),rock2:mat('#9b8468'),tree:mat('#405a39'),trunk:mat('#58422f')
+};
+function box(p,x,y,z,w,h,d,m){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;p.add(o);return o}
+function cyl(p,x,y,z,rt,rb,h,m,seg=20){const o=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg),m);o.position.set(x,y,z);o.castShadow=true;p.add(o);return o}
+function makeCar(color,playerCar=false){
+ const g=new THREE.Group(),paint=mat(color,.27,.48),dark=M.black,glass=M.glass;
+ // Low, sculpted sports-car silhouette
+ box(g,0,.58,0,2.02,.43,4.15,paint);
+ box(g,0,.79,-.15,1.92,.2,3.35,paint);
+ const cabin=new THREE.Mesh(new THREE.BoxGeometry(1.55,.76,1.95),paint);cabin.position.set(0,1.12,-.35);cabin.castShadow=true;g.add(cabin);
+ box(g,0,1.14,.02,1.43,.53,1.8,glass);
+ // windshield and rear glass
+ const wind=box(g,0,1.15,1.02,1.42,.5,.08,glass);wind.rotation.x=-.28;
+ const rear=box(g,0,1.15,-1.34,1.38,.48,.08,glass);rear.rotation.x=.28;
+ for(const x of [-.82,.82]){
+  box(g,x,.72,1.82,.32,.13,.1,dark);box(g,x,.72,-1.86,.32,.13,.1,dark);
+  box(g,x,.62,.15,.09,.16,2.15,paint);
+  box(g,x*1.12,.91,-.1,.12,.12,.48,mat('#15191e'));
+  for(const z of [-1.35,1.35]){
+   const w=new THREE.Mesh(new THREE.CylinderGeometry(.39,.39,.28,28),M.rubber);w.rotation.z=Math.PI/2;w.position.set(x*1.02,.39,z);g.add(w);
+   const hub=new THREE.Mesh(new THREE.CylinderGeometry(.24,.24,.29,24),M.rim);hub.rotation.z=Math.PI/2;hub.position.copy(w.position);g.add(hub);
+   const inner=new THREE.Mesh(new THREE.CylinderGeometry(.1,.1,.3,16),M.chrome);inner.rotation.z=Math.PI/2;inner.position.copy(w.position);g.add(inner);
+  }
+ }
+ // front fascia, grille, lamps, rear lamps and spoiler
+ box(g,0,.52,2.08,1.72,.22,.12,dark);box(g,0,.51,2.15,.82,.11,.04,M.barrierDark);
+ for(const x of [-.67,.67]){box(g,x,.72,2.1,.42,.15,.08,M.white);box(g,x,.66,-2.08,.38,.16,.08,M.tail)}
+ box(g,0,.91,-2.0,1.85,.12,.18,dark);box(g,0,1.12,-1.9,1.95,.08,.22,paint);
+ box(g,-.98,.7,.9,.12,.16,.3,M.yellow);box(g,.98,.7,.9,.12,.16,.3,M.yellow);
+ if(playerCar){box(g,0,1.42,-1.28,1.75,.09,.2,dark);box(g,-.7,1.36,-1.25,.08,.24,.08,dark);box(g,.7,1.36,-1.25,.08,.24,.08,dark)}
+ g.scale.setScalar(playerCar?1.04:.92);return g;
+}
+function addMountain(x,z,size){
+ const geo=new THREE.ConeGeometry(1,1.65,7),m=Math.random()>.5?M.rock:M.rock2;
+ const o=new THREE.Mesh(geo,m);o.position.set(x,size*.45,z);o.scale.set(size,size*1.2,size*.8);o.rotation.y=Math.random()*2;o.castShadow=true;S.add(o);
+ const cap=new THREE.Mesh(new THREE.ConeGeometry(.5,.5,7),M.sand);cap.position.set(x,size*1.05,z);cap.scale.set(size*.65,size*.7,size*.6);S.add(cap);
+}
+function addTree(x,z,scale=1){
+ const group=new THREE.Group();cyl(group,0,.8,0,.18,.23,1.6,M.trunk,8);
+ for(let i=0;i<3;i++){const crown=new THREE.Mesh(new THREE.ConeGeometry(.8-i*.12,1.55,7),M.tree);crown.position.y=1.7+i*.55;crown.scale.set(scale,scale,scale);crown.castShadow=true;group.add(crown)}
+ group.position.set(x,0,z);group.scale.setScalar(scale);S.add(group);props.push(group);
+}
+function init(){
+ const canvas=$('akxStreetCanvas');S=new THREE.Scene();S.background=new THREE.Color('#9bd3f0');S.fog=new THREE.Fog('#c4d3d5',90,330);
+ C=new THREE.PerspectiveCamera(61,1,.1,700);C.position.set(0,5.1,11.8);
+ R=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});R.setPixelRatio(Math.min(devicePixelRatio||1,1.65));R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;R.outputColorSpace=THREE.SRGBColorSpace;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.12;
+ S.add(new THREE.HemisphereLight('#e8f6ff','#776047',2.1));
+ const sun=new THREE.DirectionalLight('#fff0d5',3.2);sun.position.set(-28,48,22);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-35;sun.shadow.camera.right=35;sun.shadow.camera.top=45;sun.shadow.camera.bottom=-45;S.add(sun);
+ // Highway and shoulders
+ box(S,0,-.34,-125,18,.55,290,M.asphalt);
+ box(S,-9.7,-.43,-125,2,.28,290,M.sand);box(S,9.7,-.43,-125,2,.28,290,M.sand);
+ box(S,-23,-.52,-125,25,.15,290,M.green);box(S,23,-.52,-125,25,.15,290,M.green);
+ for(let x of [-5.7,5.7])box(S,x,-.035,-125,.12,.025,290,M.edge);
+ for(let z=-270;z<20;z+=8)for(let x of [-1.9,1.9]){const mark=box(S,x,-.035,z,.13,.035,3.5,M.line);roadMarks.push(mark)}
+ // Guardrails, posts and scenic terrain
+ for(let side of [-1,1]){
+  box(S,side*9.1,.65,-125,.18,.22,290,M.barrier);
+  for(let z=-260;z<15;z+=12)box(S,side*8.85,.28,z,.22,.58,.22,M.barrierDark);
+ }
+ for(let z=-15;z>-280;z-=16){
+  for(let side of [-1,1]){
+   addMountain(side*(15+Math.random()*20),z+Math.random()*7,5+Math.random()*12);
+   if(Math.random()>.25)addTree(side*(11+Math.random()*5),z+Math.random()*7,.65+Math.random()*.65);
+  }
+ }
+ player=makeCar('#d71932',true);player.position.set(0,0,3.3);S.add(player);resize();draw();
+}
+function resize(){if(!R)return;const c=$('akxStreetCanvas');if(!c||!c.clientWidth||!c.clientHeight)return;R.setSize(c.clientWidth,c.clientHeight,false);C.aspect=c.clientWidth/c.clientHeight;C.updateProjectionMatrix()}
+function draw(){if(R&&S&&C)R.render(S,C)}
+function overlay(title,desc,fn){const o=$('akxStreetOverlay');if(!o)return;o.innerHTML='<div><h2>'+title+'</h2><p>'+desc+'</p><button class="btn" onclick="'+fn+'">START RACE</button></div>';o.style.display='grid'}
+function spawnCar(){const v=makeCar(['#f0c51d','#286bd0','#e8e8e8','#7045a5','#171b24'][Math.floor(Math.random()*5)]);v.position.set([-5.6,0,0,5.6][Math.floor(Math.random()*4)],0,-155-Math.random()*25);S.add(v);cars.push(v)}
+function end(){run=false;const best=Math.max(Number(localStorage.getItem('akx_street_best')||0),Math.floor(meters));try{localStorage.setItem('akx_street_best',best)}catch(e){}overlay('RACE OVER','Distance '+Math.floor(meters)+' m · Best '+best+' m','akxStreetRun()')}
+function frame(t){
+ raf=requestAnimationFrame(frame);const dt=Math.min(.04,(t-last)/1000||.016);last=t;
+ if(run){
+  meters+=velocity*dt*.28;velocity=Math.min(280,velocity+dt*2.2);spawn+=dt;
+  if(spawn>1.05){spawn=0;spawnCar()}
+  player.position.x+=(lane*5.5-player.position.x)*Math.min(1,dt*5);player.rotation.z+=(lane*.07-player.rotation.z)*dt*4;
+  roadMarks.forEach(o=>{o.position.z+=velocity*dt*.56;if(o.position.z>12)o.position.z=-278});
+  props.forEach(o=>{o.position.z+=velocity*dt*.34;if(o.position.z>18)o.position.z=-275-Math.random()*15});
+  for(let i=cars.length-1;i>=0;i--){const v=cars[i];v.position.z+=velocity*dt*.54;if(v.position.z>10){S.remove(v);cars.splice(i,1);continue}if(v.position.z>-.7&&v.position.z<5.6&&Math.abs(v.position.x-player.position.x)<2.05){end();break}}
+  C.position.x+=(player.position.x*.2-C.position.x)*dt*2.2;C.position.y=5.1+Math.sin(t*.001)*.025;C.lookAt(player.position.x*.13,1,-20);
+  if(Math.floor(meters/500)>checkpoint){checkpoint++;$('akxStreetCheckpoint').textContent='CHECKPOINT '+checkpoint}
+  $('akxStreetDistance').textContent='DIST '+Math.floor(meters)+' m';$('akxStreetSpeed').textContent='SPEED '+Math.floor(velocity)+' km/h';
+ }
+ draw();
+}
 window.akxStreetMove=d=>{if(run)lane=Math.max(-1,Math.min(1,lane+d))};
-window.akxStreetRun=()=>{if(!R)init();cars.forEach(v=>S.remove(v));cars=[];lane=0;meters=0;velocity=110;spawn=0;checkpoint=0;run=true;$('akxStreetOverlay').style.display='none';last=performance.now();cancelAnimationFrame(raf);raf=requestAnimationFrame(frame)};
-window.akxStreetStart=()=>{document.body.classList.add('akx-game-fullscreen');let host=$('akxStreetStage');host.style.display='flex';$('arcadeStage').style.display='none';host.innerHTML='<div class="street-head"><b>🏁 AKX STREET RACING · 3D</b><button class="ghost" onclick="akxStreetExit()">← Arcade</button></div><div class="street-hud"><span id="akxStreetDistance">DIST 0 m</span><span id="akxStreetSpeed">SPEED 110 km/h</span><span id="akxStreetCheckpoint">CHECKPOINT 0</span><span>BEST '+(localStorage.getItem('akx_street_best')||0)+' m</span></div><div class="street-view"><canvas id="akxStreetCanvas"></canvas><div id="akxStreetOverlay"><div><h2>AKX STREET RACING 3D</h2><p>Third-person sports-car view · Mountain highway · Traffic and checkpoints</p><button class="btn" onclick="akxStreetRun()">START RACE</button></div></div></div><div class="street-controls"><button class="ghost" onpointerdown="akxStreetMove(-1)">◀ LEFT</button><button class="ghost" onpointerdown="akxStreetMove(1)">RIGHT ▶</button></div>';try{init();overlay('AKX STREET RACING 3D','Sports cars · Mountain highway · Traffic','akxStreetRun()')}catch(e){$('akxStreetOverlay').innerHTML='<div><h2>3D graphics unavailable</h2><p>Check your internet connection and reopen the game.</p><button class="btn" onclick="akxStreetExit()">BACK</button></div>';$('akxStreetOverlay').style.display='grid'}};
+window.akxStreetRun=()=>{if(!R)init();cars.forEach(v=>S.remove(v));cars=[];lane=0;meters=0;velocity=145;spawn=0;checkpoint=0;run=true;$('akxStreetOverlay').style.display='none';last=performance.now();cancelAnimationFrame(raf);raf=requestAnimationFrame(frame)};
+window.akxStreetStart=()=>{
+ document.body.classList.add('akx-game-fullscreen');const host=$('akxStreetStage');host.style.display='flex';$('arcadeStage').style.display='none';
+ host.innerHTML='<div class="street-head"><b>🏁 AKX STREET RACING · 3D</b><button class="ghost" onclick="akxStreetExit()">← ARCADE</button></div><div class="street-hud"><span id="akxStreetDistance">DIST 0 m</span><span id="akxStreetSpeed">SPEED 145 km/h</span><span id="akxStreetCheckpoint">CHECKPOINT 0</span><span>BEST '+(localStorage.getItem('akx_street_best')||0)+' m</span></div><div class="street-view"><canvas id="akxStreetCanvas"></canvas><div id="akxStreetOverlay"><div><h2>AKX STREET RACING 3D</h2><p>Third-person sports-car camera · Scenic highway · Traffic · Checkpoints</p><button class="btn" onclick="akxStreetRun()">START RACE</button></div></div></div><div class="street-controls"><button class="ghost" onpointerdown="akxStreetMove(-1)">◀ LEFT</button><button class="ghost" onpointerdown="akxStreetMove(1)">RIGHT ▶</button></div>';
+ try{init();requestAnimationFrame(resize);overlay('AKX STREET RACING 3D','Sports car · Scenic highway · Moving traffic','akxStreetRun()')}catch(e){$('akxStreetOverlay').innerHTML='<div><h2>3D graphics unavailable</h2><p>Check your internet connection and reopen the game.</p><button class="btn" onclick="akxStreetExit()">BACK</button></div>';$('akxStreetOverlay').style.display='grid'}
+};
 window.akxStreetExit=()=>{run=false;cancelAnimationFrame(raf);document.body.classList.remove('akx-game-fullscreen');$('akxStreetStage').style.display='none';$('arcadeStage').style.display='block'};
-document.addEventListener('keydown',e=>{if(!$('akxStreetStage')||$('akxStreetStage').style.display==='none')return;if(e.key==='Escape'){akxStreetExit();return}if(e.key==='ArrowLeft'||e.key.toLowerCase()==='a')window.akxStreetMove(-1);if(e.key==='ArrowRight'||e.key.toLowerCase()==='d')window.akxStreetMove(1)});window.addEventListener('resize',resize);
+const stage=$('akxStreetStage');
+if(stage){stage.addEventListener('touchstart',e=>{touchX=e.touches[0].clientX},{passive:true});stage.addEventListener('touchend',e=>{if(touchX===null)return;const dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>35)window.akxStreetMove(dx>0?1:-1);touchX=null},{passive:true})}
+document.addEventListener('keydown',e=>{if(!$('akxStreetStage')||$('akxStreetStage').style.display==='none')return;if(e.key==='Escape'){akxStreetExit();return}if(e.key==='ArrowLeft'||e.key.toLowerCase()==='a')window.akxStreetMove(-1);if(e.key==='ArrowRight'||e.key.toLowerCase()==='d')window.akxStreetMove(1)});
+window.addEventListener('resize',resize);
 })();
 </script></body></html>

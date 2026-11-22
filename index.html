@@ -409,7 +409,30 @@ body.akx-game-fullscreen #akxRunnerStage .akx-runner-view{flex:1 1 auto!importan
 body.akx-game-fullscreen #akxRunnerStage #akxRunnerCanvas{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;touch-action:none!important}
 body.akx-game-fullscreen #akxRunnerStage .akx-runner-controls{flex:0 0 auto!important;margin:0!important;padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))!important;background:#10152e!important;gap:8px!important}
 body.akx-game-fullscreen #akxRunnerStage .akx-runner-controls button{flex:1!important;min-width:0!important;min-height:52px!important;font-weight:900!important}
-</style></head><body><div class="app"><aside class="side"><div class="brand"><span class="logo">A</span>AKX <small style="color:#778">OS</small></div><div class="eyebrow" style="padding:10px">WORKSPACE</div><nav class="nav" id="sideNav"></nav></aside><main class="main"><header class="top"><button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Open menu">☰ <span>Menu</span></button><div><div class="eyebrow">PERSONAL OPERATING SYSTEM</div><div class="hello" id="greeting">Good day.</div><div class="muted" id="today"></div></div><div class="avatar" id="profileAvatar">AKX</div></header><div class="akx-search-row"><input id="akxSearch" class="field" aria-label="Search AKX" placeholder="Search AKX..." onkeydown="if(event.key==='Enter')globalSearch(this.value)"><button class="ghost" onclick="globalSearch(document.getElementById('akxSearch').value)">Search</button></div>
+</style>
+<style id="akx-avatar-3d-force-visible-v1">
+/* Keep the interactive 3D character viewer visible in the Avatar Gallery on phones and desktop. */
+#avatar .akx-gallery-body{display:grid!important}
+#avatar .akx-preview-panel{display:flex!important;visibility:visible!important;opacity:1!important;order:0!important;min-width:0!important}
+#avatar .akx-preview-scene{display:block!important;position:relative!important;width:100%!important;height:clamp(390px,58vh,680px)!important;min-height:390px!important;flex:1 1 auto!important}
+#avatar .akx-avatar-view{display:block!important;visibility:visible!important;opacity:1!important;position:absolute!important;inset:4% 10% 9%!important;z-index:2!important}
+#avatar #akxAvatarCanvas{display:block!important;width:100%!important;height:100%!important;min-height:0!important;touch-action:none!important}
+#avatar .akx-preview-controls{z-index:5!important}
+#avatar .akx-selected-info{display:flex!important}
+#avatar .akx-catalog-panel{order:1!important}
+#avatar .akx-avatar-loading{position:absolute;inset:45% 0 auto;text-align:center;font-weight:800;z-index:4}
+@media(max-width:900px){
+ #avatar .akx-gallery-body{grid-template-columns:minmax(0,1fr)!important}
+ #avatar .akx-preview-scene{height:48dvh!important;min-height:350px!important;max-height:560px!important}
+ #avatar .akx-preview-panel{width:100%!important}
+ #avatar .akx-catalog-panel{width:100%!important}
+}
+@media(max-width:520px){
+ #avatar .akx-preview-scene{height:44dvh!important;min-height:320px!important}
+ #avatar .akx-preview-controls{top:28%!important}
+}
+</style>
+</head><body><div class="app"><aside class="side"><div class="brand"><span class="logo">A</span>AKX <small style="color:#778">OS</small></div><div class="eyebrow" style="padding:10px">WORKSPACE</div><nav class="nav" id="sideNav"></nav></aside><main class="main"><header class="top"><button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Open menu">☰ <span>Menu</span></button><div><div class="eyebrow">PERSONAL OPERATING SYSTEM</div><div class="hello" id="greeting">Good day.</div><div class="muted" id="today"></div></div><div class="avatar" id="profileAvatar">AKX</div></header><div class="akx-search-row"><input id="akxSearch" class="field" aria-label="Search AKX" placeholder="Search AKX..." onkeydown="if(event.key==='Enter')globalSearch(this.value)"><button class="ghost" onclick="globalSearch(document.getElementById('akxSearch').value)">Search</button></div>
 <section class="page" id="dashboard"><div class="grid">
 
 <div class="card s12" data-widget="routine"><div class="cardtitle">My Routine <button class="ghost" onclick="go('routine')">Manage →</button></div><div id="dashRoutine"></div></div>
@@ -1027,4 +1050,26 @@ window.addEventListener('DOMContentLoaded',()=>{
     document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page==='arcade'));
   }
 });
-</script></body></html>
+</script>
+<script id="akx-avatar-3d-auto-init-v1">
+(function(){
+ const page=document.getElementById('avatar');
+ if(!page)return;
+ let lastKick=0;
+ function kick(){
+   if(!page.classList.contains('active')||typeof window.akxInitAvatar!=='function')return;
+   const now=Date.now();if(now-lastKick<180)return;lastKick=now;
+   requestAnimationFrame(()=>requestAnimationFrame(()=>window.akxInitAvatar()));
+ }
+ const observer=new MutationObserver(kick);
+ observer.observe(page,{attributes:true,attributeFilter:['class']});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)kick()});
+ window.addEventListener('pageshow',kick);
+ document.addEventListener('click',e=>{
+   const trigger=e.target.closest('[onclick*="go(\'avatar\')"],[onclick*="go(\"avatar\")"]');
+   if(trigger)setTimeout(kick,120);
+ },true);
+ if(page.classList.contains('active'))kick();
+})();
+</script>
+</body></html>

@@ -1,0 +1,9 @@
+{
+  "appId": "com.akx.personalos",
+  "appName": "AKX",
+  "webDir": "www",
+  "backgroundColor": "#f4ecd9",
+  "android": {
+    "allowMixedContent": false
+  }
+}

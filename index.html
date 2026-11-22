@@ -381,6 +381,11 @@ body:has(#avatar.page.active) .main{width:100%!important;max-width:none!importan
 .akx-avatar-card svg{image-rendering:pixelated}
 @media(max-width:900px){#avatar .akx-gallery-body{height:auto!important;min-height:calc(100dvh - 72px)!important;grid-template-columns:1fr!important}.akx-preview-scene{height:48dvh!important;min-height:340px!important}.akx-catalog-panel{min-height:48dvh}.akx-avatar-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
 @media(max-width:520px){#avatar .akx-gallery-body{padding:8px!important}.akx-preview-scene{height:43dvh!important;min-height:300px!important}.akx-avatar-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.akx-gallery-top{flex-wrap:nowrap!important}.akx-wallet span:last-child{display:none}.akx-gallery-heading{order:initial!important;flex-basis:auto!important}.akx-brand{font-size:17px!important}.akx-back,.akx-home{width:38px!important;height:38px!important}}
+</style><style id="akx-avatar-canvas-visibility-fix">
+#avatar .akx-preview-scene{position:relative!important;display:block!important}
+#avatar .akx-avatar-view{display:block!important;position:absolute!important;min-height:280px!important;height:auto!important}
+#avatar canvas#akxAvatarCanvas{display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;height:100%!important;min-height:280px!important}
+#avatar .akx-avatar-loading{z-index:5}
 </style></head><body><div class="app"><aside class="side"><div class="brand"><span class="logo">A</span>AKX <small style="color:#778">OS</small></div><div class="eyebrow" style="padding:10px">WORKSPACE</div><nav class="nav" id="sideNav"></nav></aside><main class="main"><header class="top"><button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Open menu">☰ <span>Menu</span></button><div><div class="eyebrow">PERSONAL OPERATING SYSTEM</div><div class="hello" id="greeting">Good day.</div><div class="muted" id="today"></div></div><div class="avatar" id="profileAvatar">AKX</div></header><div class="akx-search-row"><input id="akxSearch" class="field" aria-label="Search AKX" placeholder="Search AKX..." onkeydown="if(event.key==='Enter')globalSearch(this.value)"><button class="ghost" onclick="globalSearch(document.getElementById('akxSearch').value)">Search</button></div>
 <section class="page active" id="dashboard"><div class="grid">
 
@@ -650,7 +655,15 @@ function runnerInit(){let canvas=$('akxRunnerCanvas');if(!canvas)return;try{let 
 window.akxStartRunner=()=>{let host=$('akxRunnerStage');host.style.display='block';$('arcadeStage').style.display='none';host.innerHTML='<div class="arcade-game-head"><strong>🏙️ AKX RUSH 3D</strong><button class="ghost" onclick="akxExitRunner()">← Arcade</button></div><div class="akx-runner-hud"><span id="akxRunnerScore">DIST 0</span><span id="akxRunnerCoins">COINS 0</span><span>BEST '+(localStorage.getItem('akx_rush_best')||0)+'</span></div><div class="akx-runner-view"><canvas id="akxRunnerCanvas"></canvas><div class="akx-runner-overlay" id="akxRunnerOverlay"><div><h3>AKX RUSH 3D</h3><p>Swipe left/right to change lanes. Swipe up to jump, down to slide.</p><button class="btn" onclick="akxRunnerStart()">START RUN</button></div></div></div><div class="akx-runner-controls"><button class="ghost" onclick="akxMove(-1)">←</button><button class="ghost" onclick="akxJump()">↑ JUMP</button><button class="ghost" onclick="akxSlide()">↓ SLIDE</button><button class="ghost" onclick="akxMove(1)">→</button></div><div class="akx-runner-note">Keyboard: ← → / A D · Jump: ↑ / W · Slide: ↓ / S</div>';runnerInit();let c=$('akxRunnerCanvas'),startX=0,startY=0;c.addEventListener('touchstart',e=>{startX=e.changedTouches[0].clientX;startY=e.changedTouches[0].clientY},{passive:true});c.addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY;if(Math.abs(dx)>Math.abs(dy)){window.akxMove(dx>0?1:-1)}else if(Math.abs(dy)>20){dy<0?window.akxJump():window.akxSlide()}},{passive:true});};
 window.akxRunnerStart=runnerStart;window.akxMove=d=>{if(gameOn)moveLane(d)};window.akxJump=()=>{if(gameOn&&!jumping&&Date.now()>slideUntil){jumping=true;vy=.24}};window.akxSlide=()=>{if(gameOn)slideUntil=Date.now()+650};window.akxExitRunner=()=>{gameOn=false;if(raf)cancelAnimationFrame(raf);runnerRenderer?.dispose();runnerRenderer=null;runnerScene=null;runnerRoot=null;$('akxRunnerStage').style.display='none';$('arcadeStage').style.display='block';};
 document.addEventListener('keydown',e=>{if(!gameOn)return;if(['ArrowLeft','a','A'].includes(e.key))moveLane(-1);if(['ArrowRight','d','D'].includes(e.key))moveLane(1);if(['ArrowUp','w','W',' '].includes(e.key))window.akxJump();if(['ArrowDown','s','S'].includes(e.key))window.akxSlide()});
-window.akxInitAvatar=()=>{if(!avatarRenderer)initAvatar()};
+window.akxInitAvatar=()=>{
+ const canvas=$('akxAvatarCanvas'),loading=$('akxAvatarLoading');
+ if(!canvas)return;
+ if(!window.WebGLRenderingContext){if(loading)loading.textContent='This device does not support WebGL 3D';return}
+ const start=()=>{if(!avatarRenderer)initAvatar();if(avatarRenderer){resizeAvatar();if(loading)loading.style.display='none'}};
+ requestAnimationFrame(()=>requestAnimationFrame(start));
+};
+if(document.getElementById('avatar')?.classList.contains('active'))window.akxInitAvatar();
+window.addEventListener('pageshow',()=>{if(document.getElementById('avatar')?.classList.contains('active'))window.akxInitAvatar()});
 })();
 })();
 </script><script id="akx-arcade-games">

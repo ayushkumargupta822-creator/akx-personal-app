@@ -1,4 +1,4 @@
-name: Build AKX Android APK
+name: Build AKX Native Android APK
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build:
-    name: Build debug APK
+    name: Package installable AKX APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout AKX
@@ -55,10 +55,13 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug
 
+      - name: Verify APK output
+        run: test -s android/app/build/outputs/apk/debug/app-debug.apk
+
       - name: Upload installable APK
         uses: actions/upload-artifact@v4
         with:
-          name: AKX-Android-debug
+          name: AKX-Android-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
-          retention-days: 14
+          retention-days: 30

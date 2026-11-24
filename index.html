@@ -469,7 +469,7 @@ body.akx-game-fullscreen #akxRunnerStage .akx-runner-controls button{flex:1!impo
 <button class="arcade-card arc-chess" onclick="go('chess')"><span class="arcade-icon">♟️</span><span class="arcade-tag">STRATEGY</span><strong>Chess Arena</strong><small>Play against the computer or locally with a friend.</small><b class="arcade-play">OPEN CHESS ↗</b></button>
 <button class="arcade-card arc-ludo" onclick="go('ludo')"><span class="arcade-icon">🎲</span><span class="arcade-tag">CLASSIC BOARD</span><strong>Ludo</strong><small>Play with friends or challenge the computer.</small><b class="arcade-play">OPEN LUDO ↗</b></button>
 </div>
-<div class="arcade-section-title"><div><span>AKX ORIGINAL</span><h3>City Runner</h3></div><span class="arcade-live">● 3D GAME</span></div><div class="card s12 akx-runner-promo"><div><div class="eyebrow">AKX RUSH 3D</div><h3>Run the city. Beat your record.</h3><p class="muted">Your selected anime avatar becomes the runner.</p><button class="btn" onclick="akxStartRunner()">PLAY AKX RUSH 3D ↗</button></div><div class="akx-runner-badge">🏙️</div></div>
+<div class="arcade-section-title"><div><span>AKX ORIGINAL</span><h3>City Runner</h3></div><span class="arcade-live">● 3D GAME</span></div><div class="card s12 akx-runner-promo"><div><div class="eyebrow">RUN THE CITY · 3D ENDLESS RUNNER</div><h3>Run the city. Beat your record.</h3><p class="muted">Your selected anime avatar becomes the runner.</p><button class="btn" onclick="akxStartRunner()">PLAY RUN THE CITY ↗</button></div><div class="akx-runner-badge">🏙️</div></div>
 <button class="arcade-card arc-street-racing" onclick="akxStreetStart()"><span class="arcade-icon">🏎️</span><span class="arcade-tag">STREET RACING</span><strong>AKX Street Racing</strong><small>City tracks, traffic, checkpoints and time trials.</small><b class="arcade-play">RACE NOW ↗</b></button><div class="arcade-section-title"><div><span>QUICK MINI GAMES</span><h3>Pick a challenge</h3></div><span class="arcade-live">● READY TO PLAY</span></div>
 <div class="arcade-catalog">
 <button class="arcade-card arc-reaction" onclick="arcadeOpen('reaction')"><span class="arcade-icon">⚡</span><span class="arcade-tag">SPEED</span><strong>Reaction Rush</strong><small>Test how fast you react.</small><b class="arcade-play">PLAY NOW ↗</b></button>
@@ -686,29 +686,77 @@ renderAvatarGallery();updateAvatarLabel();
 function resizeAvatar(){if(!avatarRenderer)return;let c=$('akxAvatarCanvas'),w=c.clientWidth,h=c.clientHeight;if(!w||!h)return;avatarRenderer.setSize(w,h,false);avatarCamera.aspect=w/h;avatarCamera.updateProjectionMatrix()}
 function animateAvatar(){requestAnimationFrame(animateAvatar);if(avatarRoot){avatarRoot.position.y=Math.sin(performance.now()*.0018)*.025;if(avatarSpin)avatarRoot.rotation.y+=.002}if(avatarRenderer)avatarRenderer.render(avatarScene,avatarCamera)}
 function buildCity(){
- let scene=new THREE.Scene();scene.background=new THREE.Color('#8cc9e8');scene.fog=new THREE.Fog('#8cc9e8',32,105);
- let camera=new THREE.PerspectiveCamera(66,1,.1,180);camera.position.set(0,5.4,10.8);camera.lookAt(0,1,-8);
- let canvas=$('akxRunnerCanvas'),renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
- renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.35));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
- scene.add(new THREE.HemisphereLight('#eaf7ff','#62503b',2.1));let sun=new THREE.DirectionalLight('#fff1d2',2.4);sun.position.set(-12,24,12);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(sun);
- const roadMat=mat('#303944'),groundMat=mat('#778b68'),lineMat=mat('#fff1c4'),sideMat=mat('#c8c5b9');
- mesh(new THREE.BoxGeometry(72,.4,190),groundMat,0,-.45,-78,scene);
- mesh(new THREE.BoxGeometry(9,.28,190),roadMat,0,-.15,-78,scene);
- for(let x of [-4.48,4.48])mesh(new THREE.BoxGeometry(.16,.18,190),mat('#e6e2d5'),x,-.03,-78,scene);
+ let scene=new THREE.Scene();
+ scene.background=new THREE.Color('#9bdcf4');
+ scene.fog=new THREE.Fog('#b9e7ef',58,190);
+ let camera=new THREE.PerspectiveCamera(64,1,.1,220);
+ camera.position.set(0,6.2,13.5);camera.lookAt(0,1.15,-13);
+ let canvas=$('akxRunnerCanvas');
+ let renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
+ renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
+ renderer.outputColorSpace=THREE.SRGBColorSpace;
+ renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+ renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
+ scene.add(new THREE.HemisphereLight('#f3fbff','#8a6848',2.35));
+ let sun=new THREE.DirectionalLight('#fff0c9',2.7);sun.position.set(-18,32,15);sun.castShadow=true;
+ sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-24;sun.shadow.camera.right=24;sun.shadow.camera.top=35;sun.shadow.camera.bottom=-35;scene.add(sun);
+ const ground=mat('#79b85d'),road=mat('#bd8a57'),curb=mat('#ead8b4'),paving=mat('#d6c59f'),lane=mat('#f8df9c'),fence=mat('#f2e6cf'),dark=mat('#697c87');
+ mesh(new THREE.BoxGeometry(90,.5,220),ground,0,-.48,-86,scene);
+ mesh(new THREE.BoxGeometry(10,.28,220),road,0,-.17,-86,scene);
+ for(const x of [-5.25,5.25])mesh(new THREE.BoxGeometry(.42,.35,220),curb,x,-.08,-86,scene);
+ for(const x of [-6.25,6.25])mesh(new THREE.BoxGeometry(1.55,.16,220),paving,x,-.31,-86,scene);
+ for(const x of [-1.72,1.72])mesh(new THREE.BoxGeometry(.09,.025,220),lane,x,-.015,-86,scene);
  const moving=[];
- for(let z=-170;z<12;z+=9){for(let x of [-1.5,1.5]){let o=mesh(new THREE.BoxGeometry(.1,.035,4.2),lineMat,x,.015,z,scene);moving.push(o)}}
+ for(let z=-205;z<12;z+=8)for(const x of [-.055,.055]){
+  const dash=mesh(new THREE.BoxGeometry(.12,.035,3.3),lane,x,-.005,z,scene);moving.push(dash);
+ }
  const scenery=[];
- for(let side of [-1,1]){
-  mesh(new THREE.BoxGeometry(.35,.42,190),sideMat,side*5.1,.02,-78,scene);
-  for(let i=0;i<22;i++){
-   let z=-i*8-8,h=5+Math.random()*12,w=2.8+Math.random()*3,x=side*(8+Math.random()*6);
-   let building=mesh(new THREE.BoxGeometry(w,h,3.5),mat(['#d7c5a8','#9eafb8','#d8d9d2','#b8a18d','#879aa8'][i%5]),x,h/2-.3,z,scene);
-   building.castShadow=true;building.userData.recycleZ=z;scenery.push(building);
-   let windowMat=mat(['#78a8bb','#e8d5a0','#66899b'][i%3]);
-   for(let yy=1.1;yy<h-.8;yy+=1.7)for(let xx=-w/2+.45;xx<w/2-.2;xx+=.85)mesh(new THREE.BoxGeometry(.35,.48,.05),windowMat,x+xx,yy,z+1.79,scene);
-   let lamp=mesh(new THREE.CylinderGeometry(.045,.045,3.3,8),mat('#4c5358'),side*5.8,1.6,z,scene);scenery.push(lamp);
-   mesh(new THREE.SphereGeometry(.22,10,8),mat('#fff2bf'),side*5.8,3.3,z,scene);
+ const treeMats=['#ff9e35','#ffbd3e','#f27d38','#8bcf48','#65b94c','#f5c84b'];
+ function addTree(x,z,scale,index){
+  const g=new THREE.Group();
+  mesh(new THREE.CylinderGeometry(.16,.23,1.75,7),mat('#78513a'),0,.72,0,g);
+  for(let k=0;k<3;k++){
+   const crown=mesh(new THREE.SphereGeometry(.82-k*.09,9,7),mat(treeMats[(index+k)%treeMats.length]),(k%2-.5)*.38,1.55+k*.37,0,g);
+   crown.scale.set(1.08,.88,1);
   }
+  g.position.set(x,0,z);g.scale.setScalar(scale);scene.add(g);scenery.push(g);
+ }
+ function addBuilding(x,z,w,h,color){
+  const g=new THREE.Group(),body=mat(color),glass=mat('#9bd3df',.38),roof=mat('#e7d5b9');
+  mesh(new THREE.BoxGeometry(w,h,3.6),body,0,h/2-.3,0,g);
+  mesh(new THREE.BoxGeometry(w+.18,.22,3.78),roof,0,h-.19,0,g);
+  for(let y=1.05;y<h-.5;y+=1.55)for(let xx=-w/2+.48;xx<w/2-.2;xx+=.92)
+   mesh(new THREE.BoxGeometry(.36,.55,.06),glass,xx,y,1.84,g);
+  g.position.set(x,0,z);scene.add(g);scenery.push(g);
+ }
+ for(let side of [-1,1]){
+  for(let i=0;i<13;i++){
+   const z=-i*14-15;
+   addTree(side*(8.1+(i%3)*1.25),z,.8+(i%3)*.12,i+(side>0?2:0));
+   if(i%2===0)addBuilding(side*(18+(i%3)*4),z-3,5+((i%2)*1.2),10+(i%4)*3,['#a9c9d2','#e6bda0','#c7b9dc','#e8d9b7'][i%4]);
+  }
+  const rail=new THREE.Group();
+  mesh(new THREE.BoxGeometry(.12,.85,205),fence,side*7.1,.34,-94,rail);
+  for(let z=-195;z<10;z+=5)mesh(new THREE.BoxGeometry(.12,1.25,.12),dark,side*7.1,.45,z,rail);
+  rail.position.z=0;scene.add(rail);scenery.push(rail);
+  const lamp=new THREE.Group();
+  mesh(new THREE.CylinderGeometry(.055,.075,3.2,8),dark,side*6.4,1.45,0,lamp);
+  mesh(new THREE.BoxGeometry(.62,.16,.34),mat('#e9e2cf'),side*6.4,3.05,0,lamp);
+  mesh(new THREE.SphereGeometry(.2,10,8),mat('#fff2bd'),side*6.4,2.92,0,lamp);
+  for(let z=-175;z<10;z+=28){const post=lamp.clone();post.position.z=z;scene.add(post);scenery.push(post)}
+ }
+ // Decorative park entrance arch in the distance; recycled as the road advances.
+ const arch=new THREE.Group(),stone=mat('#d8c8aa'),metal=mat('#9b9ca7',.45,.35);
+ mesh(new THREE.BoxGeometry(.65,5.1,.75),stone,-4.2,2.35,0,arch);
+ mesh(new THREE.BoxGeometry(.65,5.1,.75),stone,4.2,2.35,0,arch);
+ mesh(new THREE.TorusGeometry(4.2,.19,10,40,Math.PI),metal,0,4.8,0,arch).rotation.z=Math.PI;
+ mesh(new THREE.BoxGeometry(8.7,.32,.55),metal,0,5.1,0,arch);
+ arch.position.set(0,0,-86);scene.add(arch);scenery.push(arch);
+ // Small decorative flower beds along the sidewalk.
+ for(let side of [-1,1])for(let i=0;i<22;i++){
+  const z=-i*8-8;
+  const flower=mesh(new THREE.SphereGeometry(.16,7,6),mat(['#f8d86b','#f58ca8','#fff0d2'][i%3]),side*(6.1+(i%2)*.25),.12,z,scene);
+  scenery.push(flower);
  }
  return {scene,camera,renderer,moving,scenery};
 }
@@ -716,7 +764,7 @@ function rebuildRunnerAvatar(){if(!runnerRoot)return;runnerRoot.clear();makeAvat
 function runnerHud(){let s=$('akxRunnerScore'),c=$('akxRunnerCoins');if(s)s.textContent='DIST '+Math.floor(score);if(c)c.textContent='COINS '+coins}
 function runnerOverlay(title,desc,button){let o=$('akxRunnerOverlay');if(o)o.innerHTML='<div><h3>'+title+'</h3><p>'+desc+'</p><button class="btn" onclick="'+button+'"> '+(gameOver?'RUN AGAIN':'START RUN')+' </button></div>';if(o)o.style.display='grid'}
 function runnerStart(){if(!runnerRenderer)return;score=0;coins=0;speed=.22;lane=0;vy=0;jumping=false;gameOver=false;gameOn=true;spawnTick=0;items.forEach(x=>runnerScene.remove(x));items=[];runnerHud();$('akxRunnerOverlay').style.display='none';}
-function addItem(){let isCoin=Math.random()>.45,ln=Math.floor(Math.random()*3)-1,z=-55;let o;if(isCoin){o=mesh(new THREE.TorusGeometry(.25,.08,8,16),gold,ln*2,.95,z,runnerScene);o.userData.coin=true}else{o=mesh(new THREE.BoxGeometry(1.15,1.15,.9),mat('#b85b42'),ln*2,.58,z,runnerScene);o.userData.obstacle=true}items.push(o)}
+function addItem(){let isCoin=Math.random()>.42,ln=Math.floor(Math.random()*3)-1,z=-58;let o;if(isCoin){o=new THREE.Group();const ring=mesh(new THREE.TorusGeometry(.31,.095,10,20),mat('#ffd84e',.22,.35),0,0,0,o);ring.rotation.x=Math.PI/2;mesh(new THREE.CircleGeometry(.2,16),mat('#fff0a6'),0,0,0,o);o.position.set(ln*2,1.05,z);o.userData.coin=true}else{o=new THREE.Group();const crate=mesh(new THREE.BoxGeometry(1.18,1.05,.9),mat('#e66a3e'),0,.53,0,o);mesh(new THREE.BoxGeometry(1.23,.16,.94),mat('#ffd45d'),0,.55,.01,o);mesh(new THREE.BoxGeometry(.18,.8,.96),mat('#f5c24b'),0,.53,.02,o);o.position.set(ln*2,0,z);o.userData.obstacle=true}runnerScene.add(o);items.push(o)}
 function moveLane(d){lane=Math.max(-1,Math.min(1,lane+d))}
 function endRun(){gameOn=false;gameOver=true;let best=Number(localStorage.getItem('akx_rush_best')||0);if(Math.floor(score)>best){best=Math.floor(score);localStorage.setItem('akx_rush_best',best)}runnerOverlay('Run complete','Distance '+Math.floor(score)+' · Coins '+coins+' · Best '+best,'akxRunnerStart()')}
 function runnerFrame(now){
@@ -758,7 +806,7 @@ function runnerInit(){
 }
 window.akxStartRunner=()=>{
  document.body.classList.add('akx-game-fullscreen');let host=$('akxRunnerStage');host.style.display='flex';$('arcadeStage').style.display='none';
- host.innerHTML='<div class="arcade-game-head"><strong>🏙️ AKX RUSH 3D</strong><button class="ghost" onclick="akxExitRunner()">← ARCADE</button></div><div class="akx-runner-hud"><span id="akxRunnerScore">DIST 0</span><span id="akxRunnerCoins">COINS 0</span><span>BEST '+(localStorage.getItem('akx_rush_best')||0)+'</span></div><div class="akx-runner-view"><canvas id="akxRunnerCanvas"></canvas><div class="akx-runner-overlay" id="akxRunnerOverlay"><div><h3>AKX RUSH 3D</h3><p>City runner · Swipe to change lanes, jump and slide.</p><button class="btn" onclick="akxRunnerStart()">START RUN</button></div></div></div><div class="akx-runner-controls"><button class="ghost" onclick="akxMove(-1)">◀</button><button class="ghost" onclick="akxJump()">⬆ JUMP</button><button class="ghost" onclick="akxSlide()">⬇ SLIDE</button><button class="ghost" onclick="akxMove(1)">▶</button></div>';
+ host.innerHTML='<div class="arcade-game-head"><strong>🏃 RUN THE CITY · 3D</strong><button class="ghost" onclick="akxExitRunner()">← ARCADE</button></div><div class="akx-runner-hud"><span id="akxRunnerScore">DIST 0</span><span id="akxRunnerCoins">COINS 0</span><span>BEST '+(localStorage.getItem('akx_rush_best')||0)+'</span></div><div class="akx-runner-view"><canvas id="akxRunnerCanvas"></canvas><div class="akx-runner-overlay" id="akxRunnerOverlay"><div><h3>RUN THE CITY</h3><p>Colorful city park · Collect coins · Swipe to change lanes, jump and slide.</p><button class="btn" onclick="akxRunnerStart()">START RUN</button></div></div></div><div class="akx-runner-controls"><button class="ghost" onclick="akxMove(-1)">◀</button><button class="ghost" onclick="akxJump()">⬆ JUMP</button><button class="ghost" onclick="akxSlide()">⬇ SLIDE</button><button class="ghost" onclick="akxMove(1)">▶</button></div>';
  runnerInit();let c=$('akxRunnerCanvas'),startX=0,startY=0;
  c.addEventListener('touchstart',e=>{startX=e.changedTouches[0].clientX;startY=e.changedTouches[0].clientY},{passive:true});
  c.addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY;if(Math.max(Math.abs(dx),Math.abs(dy))<24)return;if(Math.abs(dx)>Math.abs(dy))window.akxMove(dx>0?1:-1);else if(dy<0)window.akxJump();else window.akxSlide()},{passive:true});
